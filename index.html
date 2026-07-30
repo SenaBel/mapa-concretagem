@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes"
+    />
+    <title>Concreto · Rastreabilidade</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: none;
+      }
+      body {
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        background: #f0f4f8;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 12px;
+      }
+      #app {
+        max-width: 700px;
+        width: 100%;
+        background: white;
+        border-radius: 32px;
+        padding: 20px 18px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      }
+      .view {
+        display: none;
+        flex-direction: column;
+        gap: 18px;
+      }
+      .view.active {
+        display: flex;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #1e2b4f;
+        color: white;
+        border: none;
+        border-radius: 60px;
+        padding: 16px 24px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        transition: 0.15s;
+        box-shadow: 0 4px 0 #ffffff;
+        cursor: pointer;
+        touch-action: manipulation;
+        width: 100%;
+        text-align: center;
+      }
+      .btn:active {
+        transform: translateY(3px);
+        box-shadow: 0 1px 0 #0f1a2e;
+      }
+      .btn-secondary {
+        background: #2c3e5c;
+        box-shadow: 0 4px 0 #1a2637;
+      }
+      .btn-success {
+        background: #1e7e34;
+        box-shadow: 0 4px 0 #0f5522;
+      }
+      .btn-danger {
+        background: #b13e3e;
+        box-shadow: 0 4px 0 #7a2929;
+      }
+      .btn-outline {
+        background: transparent;
+        color: #1e2b4f;
+        border: 2px solid #1e2b4f;
+        box-shadow: none;
+        font-weight: 500;
+      }
+      .btn-outline:active {
+        background: #eef2f7;
+        transform: scale(0.97);
+      }
+      .btn-sm {
+        padding: 12px 16px;
+        font-size: 1rem;
+      }
+      .btn-warning {
+        background: #d48c2c;
+        box-shadow: 0 4px 0 #9e661e;
+      }
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .grid-3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+      }
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .input-group label {
+        font-weight: 600;
+        color: #1e2b4f;
+        font-size: 0.9rem;
+      }
+      .input-group input {
+        padding: 14px 16px;
+        border-radius: 30px;
+        border: 2px solid #dce3ec;
+        font-size: 1rem;
+        background: white;
+        width: 100%;
+        user-select: text;
+        -webkit-user-select: text;
+        touch-action: auto;
+      }
+      .input-group input:focus {
+        border-color: #1e2b4f;
+        outline: none;
+      }
+      .card-info {
+        background: #f8fafd;
+        border-radius: 24px;
+        padding: 16px;
+        border-left: 6px solid #1e2b4f;
+      }
+      .flex-between {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .mapa-grade {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 0;
+        aspect-ratio: 1 / 1;
+        width: 100%;
+        max-width: 450px;
+        margin: 0 auto;
+        background: #e8e0d5;
+        border: 3px solid #2c2c2c;
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.1);
+        touch-action: none;
+        cursor: crosshair;
+      }
+      .celula {
+        aspect-ratio: 1 / 1;
+        background: transparent;
+        transition: none;
+        touch-action: none;
+        position: relative;
+      }
+
+      .mapa-grade.leitura .celula {
+        cursor: default;
+        position: relative;
+      }
+      .mapa-grade.leitura .celula .bt-label {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: clamp(0.45rem, 0.8vw, 0.75rem);
+        font-weight: 800;
+        color: rgba(255, 255, 255, 0.95);
+        text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85), 0 0 4px rgba(0, 0, 0, 0.5);
+        pointer-events: none;
+        line-height: 1;
+        text-align: center;
+        letter-spacing: 0.3px;
+      }
+
+      .legenda-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 0.9rem;
+        padding: 6px 0;
+        border-bottom: 1px solid #eef2f7;
+      }
+      .cor-bolinha {
+        width: 24px;
+        height: 24px;
+        border-radius: 30px;
+        flex-shrink: 0;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+      }
+      .legenda-item .detalhes {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .legenda-item .detalhes .bt-info {
+        font-weight: 600;
+        color: #1e2b4f;
+      }
+      .legenda-item .detalhes .porcentagem {
+        font-size: 0.8rem;
+        color: #4a5b76;
+      }
+      .historico-card {
+        background: #f8fafd;
+        border-radius: 20px;
+        padding: 16px;
+        border: 1px solid #dfe6ef;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .historico-card .meta {
+        font-weight: 500;
+        color: #0f1a2e;
+      }
+      .historico-card .sub {
+        color: #3a4b66;
+        font-size: 0.9rem;
+      }
+
+      .ferramenta-ativa {
+        outline: 3px solid #1e2b4f;
+        outline-offset: 2px;
+        transform: scale(1.02);
+      }
+
+      .cabecalho-obra {
+        text-align: center;
+        padding: 8px 0 4px 0;
+        border-bottom: 2px solid #e8e0d5;
+        margin-bottom: 4px;
+      }
+      .cabecalho-obra .empresa {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #1e2b4f;
+        letter-spacing: 0.5px;
+      }
+      .cabecalho-obra .obra {
+        font-size: 0.9rem;
+        color: #3a4b66;
+        font-weight: 500;
+      }
+
+      @media (max-width: 480px) {
+        #app {
+          padding: 14px;
+        }
+        .btn {
+          font-size: 1rem;
+          padding: 14px 18px;
+        }
+        .grid-3 {
+          gap: 4px;
+        }
+        .grid-3 .btn {
+          font-size: 0.8rem;
+          padding: 10px 8px;
+        }
+      }
+
+      @media print {
+        body {
+          background: white;
+          padding: 0.3in;
+          margin: 0;
+        }
+        #app {
+          max-width: 100%;
+          box-shadow: none;
+          padding: 0;
+          border-radius: 0;
+          background: linear-gradient(
+            90deg,
+            rgba(238, 123, 0, 1) 0%,
+            rgba(255, 207, 29, 1) 100%
+          ) !important;
+        }
+        .no-print {
+          display: none !important;
+        }
+        .view {
+          display: block !important;
+        }
+        .view:not(.active) {
+          display: none !important;
+        }
+        .mapa-grade {
+          max-width: 100%;
+          border: 3px solid #000 !important;
+          box-shadow: none !important;
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+          color-adjust: exact !important;
+          gap: 0;
+        }
+        .celula {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+          color-adjust: exact !important;
+        }
+        .celula .bt-label {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+          color-adjust: exact !important;
+          font-size: 0.6rem !important;
+        }
+        .btn,
+        .btn-success,
+        .btn-danger,
+        .btn-outline,
+        .btn-warning {
+          display: none !important;
+        }
+        .card-info {
+          border-left-color: #333;
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+        .cor-bolinha {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+        .legenda-item {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+        .cabecalho-obra {
+          border-bottom-color: linear-gradient(
+            90deg,
+            rgba(238, 123, 0, 1) 0%,
+            rgba(255, 207, 29, 1) 100%
+          );
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="app"
+      style="
+        background: linear-gradient(
+          90deg,
+          rgba(238, 123, 0, 1) 0%,
+          rgba(255, 207, 29, 1) 100%
+        );
+      "
+    >
+      <!-- CABEÇALHO COM NOME DA OBRA E EMPRESA -->
+      <div class="cabecalho-obra">
+        <div class="empresa" style="color: white">🏢 Mundo Apto</div>
+        <div class="obra" style="color: white">Obra: Alto do Ipiranga</div>
+      </div>
+
+      <!-- TELA INICIAL -->
+      <div id="view-inicio" class="view active">
+        <h2 style="color: white; margin-bottom: 4px">🏗️ Concreto</h2>
+        <p style="color: white; margin-bottom: 12px">
+          Selecione a frente de trabalho
+        </p>
+        <div class="grid-2">
+          <button
+            style="background: linear-gradient(90deg, #ee7b00 0%, #ffcf1d 100%)"
+            class="btn"
+            data-torre="A"
+          >
+            TORRE A
+          </button>
+          <button
+            style="background: linear-gradient(90deg, #ee7b00 0%, #ffcf1d 100%)"
+            class="btn"
+            data-torre="B"
+          >
+            TORRE B
+          </button>
+        </div>
+        <button
+          style="background-color: (90deg, #f9005e 0%, #fe7062 100%)"
+          class="btn btn-secondary"
+          id="btn-historico"
+        >
+          📋 Histórico de Lajes
+        </button>
+        <div
+          style="
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: #6a7b92;
+            text-align: center;
+          "
+        >
+          offline · dados locais
+        </div>
+      </div>
+
+      <!-- TELA IDENTIFICAÇÃO -->
+      <div id="view-ident" class="view">
+        <h3 style="color: #1e2b4f">📍 Local da Laje</h3>
+        <div class="input-group">
+          <label>Pavimento (número)</label>
+          <input
+            type="number"
+            id="input-pavimento"
+            placeholder="ex: 15"
+            min="1"
+            max="30"
+          />
+        </div>
+        <div class="input-group">
+          <label>Nome da Laje</label>
+          <input
+            type="text"
+            id="input-nome-laje"
+            placeholder="ex: Laje Térrea"
+          />
+        </div>
+        <button class="btn btn-success" id="btn-iniciar-laje">
+          Iniciar / Carregar
+        </button>
+        <button class="btn btn-outline btn-sm" id="btn-voltar-inicio">
+          ← Voltar
+        </button>
+      </div>
+
+      <!-- TELA MAPA / LANÇAMENTO -->
+      <div id="view-mapa" class="view">
+        <div class="flex-between">
+          <span
+            style="font-weight: 700; font-size: 1.1rem"
+            id="titulo-torre-pav"
+            >Torre A · P15</span
+          >
+          <span
+            style="
+              background: #eef2f7;
+              padding: 6px 14px;
+              border-radius: 40px;
+              font-weight: 600;
+            "
+            id="caminhao-label"
+            >Caminhão 1</span
+          >
+        </div>
+        <div class="card-info">
+          <div
+            style="
+              display: flex;
+              gap: 8px;
+              flex-wrap: wrap;
+              align-items: center;
+            "
+          >
+            <span style="font-weight: 600">Cor:</span>
+            <span
+              id="cor-atual-label"
+              style="
+                padding: 4px 12px;
+                border-radius: 40px;
+                background: #1e7e34;
+                color: white;
+              "
+              >Azul</span
+            >
+            <span style="font-size: 0.8rem; color: #6a7b92; margin-left: auto"
+              >🖊️ Clique e arraste para pintar</span
+            >
+          </div>
+        </div>
+
+        <!-- Ferramentas: Pincel e Borracha -->
+        <div class="grid-3">
+          <button
+            class="btn btn-success btn-sm"
+            id="btn-ferramenta-pincel"
+            style="background: #1e7e34"
+          >
+            🖊️ Pincel
+          </button>
+          <button
+            class="btn btn-warning btn-sm"
+            id="btn-ferramenta-borracha"
+            style="background: #d48c2c"
+          >
+            🧹 Borracha
+          </button>
+          <button
+            class="btn btn-secondary btn-sm"
+            id="btn-limpar-tudo"
+            style="background: #b13e3e"
+          >
+            🗑️ Limpar
+          </button>
+        </div>
+
+        <div class="input-group">
+          <label>Nota Fiscal (NF)</label>
+          <input type="text" id="input-nf" placeholder="NF-2025-001" />
+        </div>
+        <div class="input-group">
+          <label>BT / Placa (Betoneira)</label>
+          <input type="text" id="input-bt" placeholder="ABC-1234" />
+        </div>
+        <div class="input-group">
+          <label>Hora Chegada</label>
+          <input type="time" id="input-hora" step="60" />
+        </div>
+
+        <div class="mapa-grade" id="mapa-grade"></div>
+
+        <div class="grid-2">
+          <button class="btn btn-success btn-sm" id="btn-salvar-caminhao">
+            💾 Salvar Caminhão
+          </button>
+          <button class="btn btn-secondary btn-sm" id="btn-relatorio-final">
+            📄 Relatório Final
+          </button>
+        </div>
+        <div class="grid-2">
+          <button class="btn btn-outline btn-sm" id="btn-sair-mapa">
+            🚪 Sair
+          </button>
+          <button class="btn btn-outline btn-sm" id="btn-voltar-historico">
+            📋 Histórico
+          </button>
+        </div>
+      </div>
+
+      <!-- TELA RELATÓRIO -->
+      <div id="view-relatorio" class="view">
+        <h3 style="color: #1e2b4f">📊 Relatório da Laje</h3>
+        <div id="relatorio-cabecalho" class="card-info"></div>
+        <div
+          class="mapa-grade leitura"
+          id="mapa-relatorio"
+          style="pointer-events: none"
+        ></div>
+        <div id="legenda-relatorio" style="margin: 12px 0"></div>
+        <button class="btn btn-secondary" id="btn-imprimir">
+          🖨️ Imprimir / PDF
+        </button>
+        <button class="btn btn-outline btn-sm" id="btn-voltar-mapa-rel">
+          ← Voltar ao mapa
+        </button>
+      </div>
+
+      <!-- TELA HISTÓRICO -->
+      <div id="view-historico" class="view">
+        <h3 style="color: #1e2b4f">📚 Histórico de Lajes</h3>
+        <div id="lista-historico"></div>
+        <button class="btn btn-danger" id="btn-apagar-tudo">
+          🗑️ Apagar toda memória local
+        </button>
+        <button class="btn btn-outline btn-sm" id="btn-voltar-historico-inicio">
+          ← Voltar
+        </button>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        "use strict";
+
+        const PREFIX = "CONCRETO_";
+        const CORES = [
+          "#1e7e34",
+          "#2b6f9e",
+          "#c79a2e",
+          "#b13e3e",
+          "#7d4e9e",
+          "#c95a7a",
+          "#4a7c59",
+          "#b58a5a",
+        ];
+        const NOMES_CORES = [
+          "Verde",
+          "Azul",
+          "Amarelo",
+          "Vermelho",
+          "Roxo",
+          "Rosa",
+          "Oliva",
+          "Ocre",
+        ];
+        const NOME_EMPRESA = "Mundo Apto";
+        const NOME_OBRA = "Alto do Ipiranga";
+        const TOTAL = 100;
+
+        let estado = {
+          torre: "A",
+          pavimento: "",
+          nomeLaje: "",
+          caminhoes: [],
+          caminhaoAtivo: 0,
+          corAtual: CORES[0],
+          nomeCorAtual: NOMES_CORES[0],
+          chave: "",
+        };
+
+        let isPainting = false;
+        let ferramentaAtual = "pincel";
+
+        // DOM
+        const views = {
+          inicio: document.getElementById("view-inicio"),
+          ident: document.getElementById("view-ident"),
+          mapa: document.getElementById("view-mapa"),
+          relatorio: document.getElementById("view-relatorio"),
+          historico: document.getElementById("view-historico"),
+        };
+
+        const inputPavimento = document.getElementById("input-pavimento");
+        const inputNomeLaje = document.getElementById("input-nome-laje");
+        const inputNF = document.getElementById("input-nf");
+        const inputBT = document.getElementById("input-bt");
+        const inputHora = document.getElementById("input-hora");
+        const mapaGrade = document.getElementById("mapa-grade");
+        const mapaRelatorio = document.getElementById("mapa-relatorio");
+        const legendaRelatorio = document.getElementById("legenda-relatorio");
+        const relatorioCabecalho = document.getElementById(
+          "relatorio-cabecalho"
+        );
+        const listaHistorico = document.getElementById("lista-historico");
+        const tituloTorrePav = document.getElementById("titulo-torre-pav");
+        const caminhaoLabel = document.getElementById("caminhao-label");
+        const corAtualLabel = document.getElementById("cor-atual-label");
+        const btnPincel = document.getElementById("btn-ferramenta-pincel");
+        const btnBorracha = document.getElementById("btn-ferramenta-borracha");
+        const btnLimparTudo = document.getElementById("btn-limpar-tudo");
+
+        // UTIL
+        function gerarChave(torre, pav, nome) {
+          const nomeLimpo = nome.trim().replace(/\s+/g, "_");
+          return `${PREFIX}${torre}_${pav}_${nomeLimpo}`;
+        }
+
+        function getFromStorage(chave) {
+          try {
+            const raw = localStorage.getItem(chave);
+            return raw ? JSON.parse(raw) : null;
+          } catch {
+            return null;
+          }
+        }
+
+        function saveToStorage(chave, data) {
+          localStorage.setItem(chave, JSON.stringify(data));
+        }
+
+        function getAllKeys() {
+          const keys = [];
+          for (let i = 0; i < localStorage.length; i++) {
+            const k = localStorage.key(i);
+            if (k && k.startsWith(PREFIX)) keys.push(k);
+          }
+          return keys;
+        }
+
+        function showView(id) {
+          Object.values(views).forEach((v) => v.classList.remove("active"));
+          document.getElementById(id).classList.add("active");
+        }
+
+        // PINTAR CÉLULA INDIVIDUAL (caneta)
+        function pintarCelula(index) {
+          const caminhao = estado.caminhoes[estado.caminhaoAtivo];
+          if (!caminhao) return;
+          if (!caminhao.quadrados) caminhao.quadrados = new Set();
+
+          const celulasDOM = mapaGrade.querySelectorAll(".celula");
+
+          if (ferramentaAtual === "pincel") {
+            if (!caminhao.quadrados.has(index)) {
+              caminhao.quadrados.add(index);
+              if (celulasDOM[index]) {
+                celulasDOM[index].style.background = estado.corAtual;
+              }
+            }
+          } else {
+            if (caminhao.quadrados.has(index)) {
+              caminhao.quadrados.delete(index);
+              if (celulasDOM[index]) {
+                celulasDOM[index].style.background = "transparent";
+              }
+            }
+          }
+          salvarProgressoAtual();
+        }
+
+        // LIMPAR TUDO
+        function limparCaminhaoAtual() {
+          const caminhao = estado.caminhoes[estado.caminhaoAtivo];
+          if (!caminhao) return;
+          if (!caminhao.quadrados || caminhao.quadrados.size === 0) return;
+
+          if (
+            confirm(
+              `Tem certeza que deseja apagar TODAS as pinturas do Caminhão ${
+                estado.caminhaoAtivo + 1
+              }?`
+            )
+          ) {
+            const celulasDOM = mapaGrade.querySelectorAll(".celula");
+            for (const idx of caminhao.quadrados) {
+              if (celulasDOM[idx]) {
+                celulasDOM[idx].style.background = "transparent";
+              }
+            }
+            caminhao.quadrados.clear();
+            salvarProgressoAtual();
+          }
+        }
+
+        // SALVAR
+        function salvarProgressoAtual() {
+          if (!estado.chave) return;
+          const dadosParaSalvar = {
+            torre: estado.torre,
+            pavimento: estado.pavimento,
+            nomeLaje: estado.nomeLaje,
+            caminhoes: estado.caminhoes.map((c) => ({
+              nf: c.nf || "",
+              bt: c.bt || "",
+              hora: c.hora || "",
+              cor: c.cor || "#888",
+              quadrados: c.quadrados ? Array.from(c.quadrados) : [],
+            })),
+            caminhaoAtivo: estado.caminhaoAtivo,
+            corAtual: estado.corAtual,
+            nomeCorAtual: estado.nomeCorAtual,
+          };
+          saveToStorage(estado.chave, dadosParaSalvar);
+        }
+
+        // RENDER
+        function renderGrade(container, dadosCaminhoes, modoLeitura = false) {
+          container.innerHTML = "";
+          const mapaCores = new Array(TOTAL).fill("transparent");
+          const mapaBts = new Array(TOTAL).fill(null);
+
+          if (dadosCaminhoes) {
+            for (let idx = 0; idx < dadosCaminhoes.length; idx++) {
+              const c = dadosCaminhoes[idx];
+              if (c.quadrados) {
+                for (const q of c.quadrados) {
+                  if (q >= 0 && q < TOTAL) {
+                    mapaCores[q] = c.cor || "#888";
+                    mapaBts[q] = c.bt || "BT-" + (idx + 1);
+                  }
+                }
+              }
+            }
+          }
+
+          for (let i = 0; i < TOTAL; i++) {
+            const div = document.createElement("div");
+            div.className = "celula";
+            if (mapaCores[i] !== "transparent") {
+              div.style.background = mapaCores[i];
+            }
+            div.dataset.index = i;
+
+            if (modoLeitura && mapaBts[i]) {
+              const label = document.createElement("span");
+              label.className = "bt-label";
+              label.textContent = mapaBts[i];
+              div.appendChild(label);
+            }
+
+            if (!modoLeitura) {
+              div.addEventListener("mousedown", function (e) {
+                e.preventDefault();
+                isPainting = true;
+                const idx = parseInt(this.dataset.index);
+                pintarCelula(idx);
+              });
+
+              div.addEventListener("mouseenter", function (e) {
+                if (isPainting) {
+                  const idx = parseInt(this.dataset.index);
+                  pintarCelula(idx);
+                }
+              });
+
+              div.addEventListener("mouseup", function (e) {
+                isPainting = false;
+              });
+
+              div.addEventListener(
+                "touchstart",
+                function (e) {
+                  e.preventDefault();
+                  const touch = e.touches[0];
+                  const target = document.elementFromPoint(
+                    touch.clientX,
+                    touch.clientY
+                  );
+                  if (target && target.classList.contains("celula")) {
+                    isPainting = true;
+                    const idx = parseInt(target.dataset.index);
+                    pintarCelula(idx);
+                  }
+                },
+                { passive: false }
+              );
+
+              div.addEventListener(
+                "touchmove",
+                function (e) {
+                  e.preventDefault();
+                  const touch = e.touches[0];
+                  const target = document.elementFromPoint(
+                    touch.clientX,
+                    touch.clientY
+                  );
+                  if (
+                    target &&
+                    target.classList.contains("celula") &&
+                    isPainting
+                  ) {
+                    const idx = parseInt(target.dataset.index);
+                    pintarCelula(idx);
+                  }
+                },
+                { passive: false }
+              );
+
+              div.addEventListener(
+                "touchend",
+                function (e) {
+                  e.preventDefault();
+                  isPainting = false;
+                },
+                { passive: false }
+              );
+            }
+
+            container.appendChild(div);
+          }
+
+          container.addEventListener("dragstart", (e) => e.preventDefault());
+          container.addEventListener("selectstart", (e) => e.preventDefault());
+        }
+
+        // CARREGAR
+        function carregarLaje(torre, pav, nome) {
+          const chave = gerarChave(torre, pav, nome);
+          estado.chave = chave;
+          estado.torre = torre;
+          estado.pavimento = pav;
+          estado.nomeLaje = nome;
+
+          const dados = getFromStorage(chave);
+          if (dados) {
+            estado.caminhoes = dados.caminhoes.map((c) => ({
+              ...c,
+              quadrados: new Set(c.quadrados || []),
+            }));
+            estado.caminhaoAtivo = dados.caminhaoAtivo || 0;
+            estado.corAtual = dados.corAtual || CORES[0];
+            estado.nomeCorAtual = dados.nomeCorAtual || NOMES_CORES[0];
+            if (estado.caminhoes.length === 0) {
+              criarNovoCaminhao();
+            } else if (estado.caminhaoAtivo >= estado.caminhoes.length) {
+              estado.caminhaoAtivo = estado.caminhoes.length - 1;
+            }
+          } else {
+            estado.caminhoes = [];
+            estado.caminhaoAtivo = 0;
+            estado.corAtual = CORES[0];
+            estado.nomeCorAtual = NOMES_CORES[0];
+            criarNovoCaminhao();
+          }
+          atualizarInterfaceMapa();
+          showView("view-mapa");
+        }
+
+        function criarNovoCaminhao() {
+          const idx = estado.caminhoes.length;
+          const corIdx = idx % CORES.length;
+          estado.corAtual = CORES[corIdx];
+          estado.nomeCorAtual = NOMES_CORES[corIdx];
+          const novo = {
+            nf: "",
+            bt: "",
+            hora: "",
+            cor: estado.corAtual,
+            quadrados: new Set(),
+          };
+          estado.caminhoes.push(novo);
+          estado.caminhaoAtivo = estado.caminhoes.length - 1;
+          const now = new Date();
+          const hh = String(now.getHours()).padStart(2, "0");
+          const mm = String(now.getMinutes()).padStart(2, "0");
+          inputHora.value = `${hh}:${mm}`;
+          inputNF.value = "";
+          inputBT.value = "";
+        }
+
+        function atualizarInterfaceMapa() {
+          const c = estado.caminhoes[estado.caminhaoAtivo];
+          if (!c) return;
+          tituloTorrePav.textContent = `Torre ${estado.torre} · P${estado.pavimento}`;
+          caminhaoLabel.textContent = `Caminhão ${estado.caminhaoAtivo + 1}`;
+          corAtualLabel.textContent = estado.nomeCorAtual;
+          corAtualLabel.style.background = estado.corAtual;
+          inputNF.value = c.nf || "";
+          inputBT.value = c.bt || "";
+          if (c.hora) inputHora.value = c.hora;
+          renderGrade(mapaGrade, estado.caminhoes, false);
+          atualizarBotoesFerramenta();
+        }
+
+        function atualizarBotoesFerramenta() {
+          btnPincel.classList.toggle(
+            "ferramenta-ativa",
+            ferramentaAtual === "pincel"
+          );
+          btnBorracha.classList.toggle(
+            "ferramenta-ativa",
+            ferramentaAtual === "borracha"
+          );
+        }
+
+        // SALVAR CAMINHÃO
+        function salvarCaminhaoAtual() {
+          const c = estado.caminhoes[estado.caminhaoAtivo];
+          if (!c) return;
+          c.nf = inputNF.value.trim();
+          c.bt = inputBT.value.trim();
+          c.hora = inputHora.value;
+          c.cor = estado.corAtual;
+          salvarProgressoAtual();
+
+          const novoIdx = estado.caminhoes.length;
+          const corIdx = novoIdx % CORES.length;
+          estado.corAtual = CORES[corIdx];
+          estado.nomeCorAtual = NOMES_CORES[corIdx];
+          const novo = {
+            nf: "",
+            bt: "",
+            hora: "",
+            cor: estado.corAtual,
+            quadrados: new Set(),
+          };
+          estado.caminhoes.push(novo);
+          estado.caminhaoAtivo = estado.caminhoes.length - 1;
+          const now = new Date();
+          const hh = String(now.getHours()).padStart(2, "0");
+          const mm = String(now.getMinutes()).padStart(2, "0");
+          inputHora.value = `${hh}:${mm}`;
+          inputNF.value = "";
+          inputBT.value = "";
+          salvarProgressoAtual();
+          atualizarInterfaceMapa();
+        }
+
+        // RELATÓRIO
+        function gerarRelatorio() {
+          const caminhoesComPintura = estado.caminhoes.filter(
+            (c) => c.quadrados && c.quadrados.size > 0
+          );
+          const totalPintados = caminhoesComPintura.reduce(
+            (acc, c) => acc + (c.quadrados ? c.quadrados.size : 0),
+            0
+          );
+
+          const dataEmissao = new Date().toLocaleDateString("pt-BR");
+          const totalCaminhoes = caminhoesComPintura.length;
+
+          // Porcentagem agora é calculada sobre o TOTAL da laje (100 células)
+          const caminhoesComPorcentagem = caminhoesComPintura.map((c) => ({
+            ...c,
+            porcentagem: Math.round((c.quadrados.size / TOTAL) * 100),
+          }));
+
+          relatorioCabecalho.innerHTML = `
+                    <div style="font-size:1.2rem; font-weight:700;">${NOME_EMPRESA}</div>
+                    <div style="font-size:1rem; font-weight:600; color:#1e2b4f;">Obra: ${NOME_OBRA}</div>
+                    <div style="font-size:1rem;"><strong>Torre ${estado.torre}</strong> · Pavimento ${estado.pavimento} · ${estado.nomeLaje}</div>
+                    <div style="font-size:0.9rem; color:#2c3e5c;">Data emissão: ${dataEmissao} · Total caminhões: ${totalCaminhoes} · Área concretada: ${totalPintados}/100 (${totalPintados}%)</div>
+                `;
+
+          renderGrade(mapaRelatorio, caminhoesComPorcentagem, true);
+
+          let legendaHTML =
+            '<div style="font-weight:600; margin: 12px 0 6px;">Legenda de Lotes por Betoneira (BT)</div>';
+          caminhoesComPorcentagem.forEach((c, i) => {
+            legendaHTML += `
+                        <div class="legenda-item">
+                            <span class="cor-bolinha" style="background:${
+                              c.cor || "#888"
+                            }"></span>
+                            <div class="detalhes">
+                                <span class="bt-info">🚚 BT: ${
+                                  c.bt || "N/A"
+                                } · NF: ${c.nf || "-"}</span>
+                                <span class="porcentagem">${
+                                  c.quadrados.size
+                                } células · ${c.porcentagem}% da laje · Hora: ${
+              c.hora || "-"
+            }</span>
+                            </div>
+                        </div>
+                    `;
+          });
+          if (caminhoesComPorcentagem.length === 0) {
+            legendaHTML +=
+              '<p style="color:#6a7b92;">Nenhuma área pintada ainda.</p>';
+          }
+          legendaRelatorio.innerHTML = legendaHTML;
+          showView("view-relatorio");
+        }
+
+        // HISTÓRICO
+        function renderizarHistorico() {
+          const keys = getAllKeys();
+          listaHistorico.innerHTML = "";
+          if (keys.length === 0) {
+            listaHistorico.innerHTML =
+              '<p style="color:#6a7b92; padding:20px 0;">Nenhuma laje salva neste aparelho.</p>';
+            return;
+          }
+          keys.forEach((chave) => {
+            const dados = getFromStorage(chave);
+            if (!dados) return;
+            const partes = chave.replace(PREFIX, "").split("_");
+            const torre = partes[0] || "?";
+            const pav = partes[1] || "?";
+            const nome =
+              dados.nomeLaje || partes.slice(2).join("_") || "Sem nome";
+            const caminhoesComPintura = dados.caminhoes
+              ? dados.caminhoes.filter(
+                  (c) => c.quadrados && c.quadrados.length > 0
+                )
+              : [];
+            const totalCaminhoes = caminhoesComPintura.length;
+            const card = document.createElement("div");
+            card.className = "historico-card";
+            card.innerHTML = `
+                        <div class="meta">Torre ${torre} · Pavimento ${pav}</div>
+                        <div class="sub">${nome} · ${totalCaminhoes} caminhão(ões)</div>
+                        <button class="btn btn-sm btn-secondary" data-chave="${chave}" style="width:auto; padding:10px 20px; margin-top:6px;">Abrir Este Mapa</button>
+                    `;
+            const btnAbrir = card.querySelector("button");
+            btnAbrir.addEventListener("click", function (e) {
+              const chave = this.dataset.chave;
+              const dados = getFromStorage(chave);
+              if (dados) {
+                const torre = dados.torre || "A";
+                const pav = dados.pavimento || "1";
+                const nome = dados.nomeLaje || "Laje";
+                carregarLaje(torre, pav, nome);
+              }
+            });
+            listaHistorico.appendChild(card);
+          });
+        }
+
+        // EVENTOS
+        btnPincel.addEventListener("click", function () {
+          ferramentaAtual = "pincel";
+          atualizarBotoesFerramenta();
+        });
+
+        btnBorracha.addEventListener("click", function () {
+          ferramentaAtual = "borracha";
+          atualizarBotoesFerramenta();
+        });
+
+        btnLimparTudo.addEventListener("click", limparCaminhaoAtual);
+
+        document.querySelectorAll("[data-torre]").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            const torre = this.dataset.torre;
+            inputPavimento.value = "1";
+            inputNomeLaje.value = "";
+            estado.torre = torre;
+            showView("view-ident");
+          });
+        });
+
+        document
+          .getElementById("btn-voltar-inicio")
+          .addEventListener("click", () => showView("view-inicio"));
+        document
+          .getElementById("btn-iniciar-laje")
+          .addEventListener("click", function () {
+            const pav = inputPavimento.value.trim();
+            const nome = inputNomeLaje.value.trim();
+            if (!pav || !nome) {
+              alert("Preencha Pavimento e Nome da Laje.");
+              return;
+            }
+            const torre = estado.torre || "A";
+            carregarLaje(torre, pav, nome);
+          });
+        document
+          .getElementById("btn-salvar-caminhao")
+          .addEventListener("click", salvarCaminhaoAtual);
+        document
+          .getElementById("btn-relatorio-final")
+          .addEventListener("click", function () {
+            salvarProgressoAtual();
+            gerarRelatorio();
+          });
+        document
+          .getElementById("btn-sair-mapa")
+          .addEventListener("click", function () {
+            salvarProgressoAtual();
+            showView("view-inicio");
+          });
+        document
+          .getElementById("btn-voltar-historico")
+          .addEventListener("click", function () {
+            salvarProgressoAtual();
+            renderizarHistorico();
+            showView("view-historico");
+          });
+        document
+          .getElementById("btn-historico")
+          .addEventListener("click", function () {
+            renderizarHistorico();
+            showView("view-historico");
+          });
+        document
+          .getElementById("btn-voltar-historico-inicio")
+          .addEventListener("click", () => showView("view-inicio"));
+        document
+          .getElementById("btn-imprimir")
+          .addEventListener("click", function () {
+            window.print();
+          });
+        document
+          .getElementById("btn-voltar-mapa-rel")
+          .addEventListener("click", function () {
+            atualizarInterfaceMapa();
+            showView("view-mapa");
+          });
+        document
+          .getElementById("btn-apagar-tudo")
+          .addEventListener("click", function () {
+            if (
+              confirm(
+                "Tem certeza que deseja apagar TODOS os dados do LocalStorage?"
+              )
+            ) {
+              const keys = getAllKeys();
+              keys.forEach((k) => localStorage.removeItem(k));
+              renderizarHistorico();
+              alert("Memória apagada.");
+            }
+          });
+
+        document.addEventListener("mouseup", () => {
+          isPainting = false;
+        });
+        document.addEventListener("touchend", () => {
+          isPainting = false;
+        });
+
+        const now = new Date();
+        const hh = String(now.getHours()).padStart(2, "0");
+        const mm = String(now.getMinutes()).padStart(2, "0");
+        if (inputHora) inputHora.value = `${hh}:${mm}`;
+
+        atualizarBotoesFerramenta();
+      })();
+    </script>
+  </body>
+</html>
