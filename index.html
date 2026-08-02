@@ -7,6 +7,7 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes"
     />
     <title>Concreto · Rastreabilidade</title>
+
     <style>
       * {
         box-sizing: border-box;
@@ -14,8 +15,8 @@
         padding: 0;
         user-select: none;
         -webkit-user-select: none;
-        touch-action: none;
       }
+
       body {
         font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
         background: #f0f4f8;
@@ -25,22 +26,26 @@
         align-items: center;
         padding: 12px;
       }
+
       #app {
         max-width: 700px;
         width: 100%;
-        background: white;
+        background: linear-gradient(90deg, #ee7b00 0%, #ffcf1d 100%);
         border-radius: 32px;
         padding: 20px 18px;
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
       }
+
       .view {
         display: none;
         flex-direction: column;
         gap: 18px;
       }
+
       .view.active {
         display: flex;
       }
+
       .btn {
         display: inline-flex;
         align-items: center;
@@ -54,28 +59,33 @@
         font-weight: 600;
         letter-spacing: 0.3px;
         transition: 0.15s;
-        box-shadow: 0 4px 0 #ffffff;
+        box-shadow: 0 4px 0 #fff;
         cursor: pointer;
         touch-action: manipulation;
         width: 100%;
         text-align: center;
       }
+
       .btn:active {
         transform: translateY(3px);
         box-shadow: 0 1px 0 #0f1a2e;
       }
+
       .btn-secondary {
         background: #2c3e5c;
         box-shadow: 0 4px 0 #1a2637;
       }
+
       .btn-success {
         background: #1e7e34;
         box-shadow: 0 4px 0 #0f5522;
       }
+
       .btn-danger {
         background: #b13e3e;
         box-shadow: 0 4px 0 #7a2929;
       }
+
       .btn-outline {
         background: transparent;
         color: #1e2b4f;
@@ -83,38 +93,46 @@
         box-shadow: none;
         font-weight: 500;
       }
+
       .btn-outline:active {
         background: #eef2f7;
         transform: scale(0.97);
       }
+
       .btn-sm {
         padding: 12px 16px;
         font-size: 1rem;
       }
+
       .btn-warning {
         background: #d48c2c;
         box-shadow: 0 4px 0 #9e661e;
       }
+
       .grid-2 {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 12px;
       }
+
       .grid-3 {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         gap: 8px;
       }
+
       .input-group {
         display: flex;
         flex-direction: column;
         gap: 6px;
       }
+
       .input-group label {
         font-weight: 600;
         color: #1e2b4f;
         font-size: 0.9rem;
       }
+
       .input-group input {
         padding: 14px 16px;
         border-radius: 30px;
@@ -126,95 +144,19 @@
         -webkit-user-select: text;
         touch-action: auto;
       }
+
       .input-group input:focus {
         border-color: #1e2b4f;
         outline: none;
       }
+
       .card-info {
         background: #f8fafd;
         border-radius: 24px;
         padding: 16px;
         border-left: 6px solid #1e2b4f;
       }
-      .flex-between {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
 
-      .mapa-grade {
-        display: grid;
-        grid-template-columns: repeat(10, 1fr);
-        gap: 0;
-        aspect-ratio: 1 / 1;
-        width: 100%;
-        max-width: 450px;
-        margin: 0 auto;
-        background: #e8e0d5;
-        border: 3px solid #2c2c2c;
-        border-radius: 4px;
-        overflow: hidden;
-        box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.1);
-        touch-action: none;
-        cursor: crosshair;
-      }
-      .celula {
-        aspect-ratio: 1 / 1;
-        background: transparent;
-        transition: none;
-        touch-action: none;
-        position: relative;
-      }
-
-      .mapa-grade.leitura .celula {
-        cursor: default;
-        position: relative;
-      }
-      .mapa-grade.leitura .celula .bt-label {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: clamp(0.45rem, 0.8vw, 0.75rem);
-        font-weight: 800;
-        color: rgba(255, 255, 255, 0.95);
-        text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85), 0 0 4px rgba(0, 0, 0, 0.5);
-        pointer-events: none;
-        line-height: 1;
-        text-align: center;
-        letter-spacing: 0.3px;
-      }
-
-      .legenda-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-size: 0.9rem;
-        padding: 6px 0;
-        border-bottom: 1px solid #eef2f7;
-      }
-      .cor-bolinha {
-        width: 24px;
-        height: 24px;
-        border-radius: 30px;
-        flex-shrink: 0;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-      }
-      .legenda-item .detalhes {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-      }
-      .legenda-item .detalhes .bt-info {
-        font-weight: 600;
-        color: #1e2b4f;
-      }
-      .legenda-item .detalhes .porcentagem {
-        font-size: 0.8rem;
-        color: #4a5b76;
-      }
       .historico-card {
         background: #f8fafd;
         border-radius: 20px;
@@ -224,13 +166,64 @@
         flex-direction: column;
         gap: 8px;
       }
+
       .historico-card .meta {
         font-weight: 500;
         color: #0f1a2e;
       }
+
       .historico-card .sub {
         color: #3a4b66;
         font-size: 0.9rem;
+      }
+
+      .cabecalho-obra {
+        text-align: center;
+        padding: 8px 0 4px;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+        margin-bottom: 4px;
+      }
+
+      .cabecalho-obra .empresa {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 4px 0;
+      }
+
+      .logo-mundo-apto {
+        width: 180px;
+        max-width: 80%;
+        height: auto;
+        display: block;
+      }
+
+      .cabecalho-obra .obra {
+        font-size: 0.9rem;
+        color: white;
+        font-weight: 500;
+      }
+
+      .mapa-container {
+        width: 100%;
+        max-width: 450px;
+        margin: 0 auto;
+        background: #e8e0d5;
+        border: 3px solid #2c2c2c;
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.1);
+        position: relative;
+        touch-action: none;
+      }
+
+      .mapa-canvas {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1/1;
+        cursor: crosshair;
+        touch-action: none;
       }
 
       .ferramenta-ativa {
@@ -239,212 +232,427 @@
         transform: scale(1.02);
       }
 
-      .cabecalho-obra {
-        text-align: center;
-        padding: 8px 0 4px 0;
-        border-bottom: 2px solid #e8e0d5;
-        margin-bottom: 4px;
-      }
-      .cabecalho-obra .empresa {
-        font-size: 1rem;
-        font-weight: 700;
-        color: #1e2b4f;
-        letter-spacing: 0.5px;
-      }
-      .cabecalho-obra .obra {
-        font-size: 0.9rem;
-        color: #3a4b66;
-        font-weight: 500;
-      }
-
       @media (max-width: 480px) {
         #app {
           padding: 14px;
         }
+
         .btn {
           font-size: 1rem;
           padding: 14px 18px;
         }
+
         .grid-3 {
           gap: 4px;
         }
+
         .grid-3 .btn {
           font-size: 0.8rem;
           padding: 10px 8px;
         }
       }
 
+      /* =========================================================
+         RELATÓRIO - A4 PAISAGEM
+      ========================================================= */
+
+      .folha-impressao {
+        width: 297mm;
+        height: 210mm;
+        min-height: 210mm;
+        box-sizing: border-box;
+        background: #ffffff;
+        margin: 20px auto;
+        padding: 10mm;
+        border: 1px solid #999;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .logo-relatorio-mundo-apto {
+        width: 85%;
+        max-width: 150px;
+        height: auto;
+        display: block;
+      }
+
+      .cabecalho-modelo {
+        width: 100%;
+        min-height: 20mm;
+        display: grid;
+        grid-template-columns: 18% 64% 18%;
+        border: 1px solid #333;
+        box-sizing: border-box;
+      }
+
+      .logo-apto {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-right: 1px solid #333;
+        color: #f28c00;
+        font-weight: bold;
+      }
+
+      .logo-apto > div {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .logo-m {
+        font-size: 32px;
+        font-weight: 800;
+      }
+
+      .logo-texto {
+        font-size: 14px;
+        line-height: 0.9;
+        text-align: left;
+      }
+
+      .titulo-mapa {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 800;
+        color: #222;
+        text-align: center;
+      }
+
+      .codigo-documento {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        border-left: 1px solid #333;
+        font-size: 10px;
+        font-weight: bold;
+        line-height: 1.5;
+      }
+
+      .planilha-dados {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        margin-top: 0;
+        font-size: 10px;
+      }
+
+      .planilha-dados td {
+        border: 1px solid #333;
+        height: 8mm;
+        padding: 3px 6px;
+        vertical-align: middle;
+      }
+
+      .label-col {
+        background: #f2f2f2;
+        font-weight: bold;
+        white-space: nowrap;
+      }
+
+      .celula-valor {
+        background: #ffffff;
+      }
+
+      /* =========================================================
+         TABELA NOTA / ÁREA
+         
+         NOTA = número da Nota Fiscal
+         ÁREA = nome/número da BT
+      ========================================================= */
+
+      .tabela-bt {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        margin-top: 0;
+        font-size: 10px;
+      }
+
+      .tabela-bt td {
+        border: 1px solid #333;
+        padding: 0;
+        text-align: center;
+        vertical-align: middle;
+      }
+
+      .tabela-bt .label-col {
+        width: 13%;
+        background: #f2f2f2;
+        font-weight: bold;
+        text-align: left;
+        padding-left: 6px;
+      }
+
+      .bt-celula {
+        height: 9mm;
+        font-weight: bold;
+        font-size: 11px;
+        color: #111;
+        box-sizing: border-box;
+      }
+
+      .area-celula {
+        height: 10mm;
+        font-size: 11px;
+        font-weight: 800;
+        color: #111;
+        box-sizing: border-box;
+      }
+
+      /* =========================================================
+         RETÂNGULO DA LAJE
+      ========================================================= */
+
+      .retangulo-desenho-container {
+        width: 94%;
+        height: 105mm;
+        margin: 7mm auto 0 auto;
+        padding: 5mm;
+        box-sizing: border-box;
+        border: 1px solid #333;
+        background: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        position: relative;
+      }
+
+      #mapa-relatorio {
+        width: 100%;
+        height: 100%;
+        display: block;
+        background: #e8e0d5;
+      }
+
+      .rodape-documento {
+        width: 100%;
+        margin-top: auto;
+        padding-top: 5mm;
+        display: grid;
+        grid-template-columns: 18% 64% 18%;
+        font-size: 9px;
+        color: #333;
+      }
+
+      .rodape-documento span:nth-child(1) {
+        text-align: left;
+      }
+
+      .rodape-documento span:nth-child(2) {
+        text-align: center;
+        font-weight: 600;
+      }
+
+      .rodape-documento span:nth-child(3) {
+        text-align: right;
+      }
+
+      /* =========================================================
+         IMPRESSÃO
+      ========================================================= */
+
       @media print {
-        body {
-          background: white;
-          padding: 0.3in;
+        @page {
+          size: A4 landscape;
           margin: 0;
         }
-        #app {
-          max-width: 100%;
-          box-shadow: none;
+
+        html,
+        body {
+          width: 297mm;
+          height: 210mm;
+          margin: 0;
           padding: 0;
-          border-radius: 0;
-          background: linear-gradient(
-            90deg,
-            rgba(238, 123, 0, 1) 0%,
-            rgba(255, 207, 29, 1) 100%
-          ) !important;
+          background: #ffffff !important;
         }
-        .no-print {
-          display: none !important;
+
+        body {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
         }
+
+        #app {
+          width: 100%;
+          max-width: none;
+          margin: 0;
+          padding: 0;
+        }
+
         .view {
+          display: none !important;
+        }
+
+        #view-relatorio {
           display: block !important;
+          width: 100%;
+          margin: 0;
+          padding: 0;
         }
-        .view:not(.active) {
+
+        .botoes-relatorio {
           display: none !important;
         }
-        .mapa-grade {
-          max-width: 100%;
-          border: 3px solid #000 !important;
-          box-shadow: none !important;
-          -webkit-print-color-adjust: exact !important;
-          print-color-adjust: exact !important;
-          color-adjust: exact !important;
-          gap: 0;
+
+        .folha-impressao {
+          width: 297mm;
+          height: 210mm;
+          min-height: 210mm;
+          margin: 0;
+          padding: 8mm;
+          border: none;
+          box-sizing: border-box;
+          overflow: hidden;
         }
-        .celula {
-          -webkit-print-color-adjust: exact !important;
-          print-color-adjust: exact !important;
-          color-adjust: exact !important;
+
+        .cabecalho-modelo {
+          min-height: 19mm;
         }
-        .celula .bt-label {
-          -webkit-print-color-adjust: exact !important;
-          print-color-adjust: exact !important;
-          color-adjust: exact !important;
-          font-size: 0.6rem !important;
+
+        .planilha-dados td {
+          height: 7mm;
         }
-        .btn,
-        .btn-success,
-        .btn-danger,
-        .btn-outline,
-        .btn-warning {
-          display: none !important;
+
+        .tabela-bt td {
+          height: 8mm;
         }
-        .card-info {
-          border-left-color: #333;
-          -webkit-print-color-adjust: exact !important;
-          print-color-adjust: exact !important;
+
+        .bt-celula {
+          height: 8mm;
         }
-        .cor-bolinha {
-          -webkit-print-color-adjust: exact !important;
-          print-color-adjust: exact !important;
+
+        .area-celula {
+          height: 9mm;
         }
-        .legenda-item {
-          -webkit-print-color-adjust: exact !important;
-          print-color-adjust: exact !important;
+
+        .retangulo-desenho-container {
+          height: 105mm;
+          margin-top: 5mm;
         }
-        .cabecalho-obra {
-          border-bottom-color: linear-gradient(
-            90deg,
-            rgba(238, 123, 0, 1) 0%,
-            rgba(255, 207, 29, 1) 100%
-          );
+
+        .rodape-documento {
+          padding-top: 3mm;
         }
       }
     </style>
   </head>
+
   <body>
-    <div
-      id="app"
-      style="
-        background: linear-gradient(
-          90deg,
-          rgba(238, 123, 0, 1) 0%,
-          rgba(255, 207, 29, 1) 100%
-        );
-      "
-    >
-      <!-- CABEÇALHO COM NOME DA OBRA E EMPRESA -->
+    <div id="app">
       <div class="cabecalho-obra">
-        <div class="empresa" style="color: white">🏢 Mundo Apto</div>
-        <div class="obra" style="color: white">Obra: Alto do Ipiranga</div>
+        <div class="empresa">
+          <img
+            src="https://mundoapto.com.br/wp-content/uploads/2021/11/logo_orange.svg"
+            alt="Mundo Apto"
+            class="logo-mundo-apto"
+          />
+        </div>
+        <div
+          style="color: #ffff !important; font-weight: bold; font-size: 15px"
+          class="obra"
+        >
+          Obra: Alto do Ipiranga
+        </div>
       </div>
 
-      <!-- TELA INICIAL -->
+      <!-- INÍCIO -->
       <div id="view-inicio" class="view active">
-        <h2 style="color: white; margin-bottom: 4px">🏗️ Concreto</h2>
-        <p style="color: white; margin-bottom: 12px">
+        <h2 style="color: #ffff; margin-bottom: 4px">
+          🏗️ Mapegamento de Concreto
+        </h2>
+
+        <p style="color: #ffff !important; margin-bottom: 12px">
           Selecione a frente de trabalho
         </p>
+
         <div class="grid-2">
           <button
-            style="background: linear-gradient(90deg, #ee7b00 0%, #ffcf1d 100%)"
             class="btn"
+            style="background: linear-gradient(90deg, #ee7b00 0%, #ffcf1d 100%)"
             data-torre="A"
           >
             TORRE A
           </button>
+
           <button
-            style="background: linear-gradient(90deg, #ee7b00 0%, #ffcf1d 100%)"
             class="btn"
+            style="background: linear-gradient(90deg, #ee7b00 0%, #ffcf1d 100%)"
             data-torre="B"
           >
             TORRE B
           </button>
         </div>
+
         <button
-          style="background-color: (90deg, #f9005e 0%, #fe7062 100%)"
+          style="background: #ee7b00 !important"
           class="btn btn-secondary"
           id="btn-historico"
         >
           📋 Histórico de Lajes
         </button>
-        <div
-          style="
-            margin-top: 8px;
-            font-size: 0.8rem;
-            color: #6a7b92;
-            text-align: center;
-          "
-        >
-          offline · dados locais
-        </div>
       </div>
 
-      <!-- TELA IDENTIFICAÇÃO -->
+      <!-- IDENTIFICAÇÃO -->
       <div id="view-ident" class="view">
-        <h3 style="color: #1e2b4f">📍 Local da Laje</h3>
+        <h3 style="color: #1e2b4f; margin-bottom: 12px">📍 Local da Laje</h3>
+
         <div class="input-group">
           <label>Pavimento (número)</label>
           <input
             type="number"
             id="input-pavimento"
-            placeholder="ex: 15"
+            placeholder="ex: 1"
             min="1"
             max="30"
           />
         </div>
+
         <div class="input-group">
           <label>Nome da Laje</label>
           <input
             type="text"
             id="input-nome-laje"
-            placeholder="ex: Laje Térrea"
+            placeholder="ex: Laje Principal"
           />
         </div>
+
+        <div class="input-group">
+          <label>Responsável</label>
+          <input type="text" id="input-responsavel" placeholder="ex: Abel" />
+        </div>
+
         <button class="btn btn-success" id="btn-iniciar-laje">
-          Iniciar / Carregar
+          INICIAR LAJE
         </button>
+
         <button class="btn btn-outline btn-sm" id="btn-voltar-inicio">
           ← Voltar
         </button>
       </div>
 
-      <!-- TELA MAPA / LANÇAMENTO -->
+      <!-- MAPA -->
       <div id="view-mapa" class="view">
-        <div class="flex-between">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+          "
+        >
           <span
             style="font-weight: 700; font-size: 1.1rem"
             id="titulo-torre-pav"
-            >Torre A · P15</span
           >
+            Torre A · P1
+          </span>
+
           <span
             style="
               background: #eef2f7;
@@ -453,9 +661,11 @@
               font-weight: 600;
             "
             id="caminhao-label"
-            >Caminhão 1</span
           >
+            Caminhão 1
+          </span>
         </div>
+
         <div class="card-info">
           <div
             style="
@@ -466,6 +676,7 @@
             "
           >
             <span style="font-weight: 600">Cor:</span>
+
             <span
               id="cor-atual-label"
               style="
@@ -474,100 +685,203 @@
                 background: #1e7e34;
                 color: white;
               "
-              >Azul</span
             >
-            <span style="font-size: 0.8rem; color: #6a7b92; margin-left: auto"
-              >🖊️ Clique e arraste para pintar</span
-            >
+              Verde
+            </span>
+
+            <span style="font-size: 0.75rem; color: #6a7b92; margin-left: auto">
+              Arraste para marcar a área
+            </span>
           </div>
         </div>
 
-        <!-- Ferramentas: Pincel e Borracha -->
-        <div class="grid-3">
+        <div class="grid-3" style="margin-bottom: 8px">
           <button
-            class="btn btn-success btn-sm"
-            id="btn-ferramenta-pincel"
-            style="background: #1e7e34"
-          >
-            🖊️ Pincel
-          </button>
-          <button
-            class="btn btn-warning btn-sm"
+            class="btn btn-warning btn-sm ferramenta-ativa"
             id="btn-ferramenta-borracha"
-            style="background: #d48c2c"
+            style="background: #d48c2c; color: white"
           >
-            🧹 Borracha
+            🧹 Pintar
           </button>
+
           <button
-            class="btn btn-secondary btn-sm"
-            id="btn-limpar-tudo"
+            class="btn btn-danger btn-sm"
+            id="btn-ferramenta-apagar"
             style="background: #b13e3e"
           >
-            🗑️ Limpar
+            🧽 Apagar
+          </button>
+
+          <button class="btn btn-outline btn-sm" id="btn-desfazer">
+            ↩️ Desfazer
           </button>
         </div>
 
         <div class="input-group">
           <label>Nota Fiscal (NF)</label>
-          <input type="text" id="input-nf" placeholder="NF-2025-001" />
+          <input type="text" id="input-nf" placeholder="854514" />
         </div>
+
         <div class="input-group">
           <label>BT / Placa (Betoneira)</label>
-          <input type="text" id="input-bt" placeholder="ABC-1234" />
+          <input type="text" id="input-bt" placeholder="BT 5784" />
         </div>
+
         <div class="input-group">
           <label>Hora Chegada</label>
           <input type="time" id="input-hora" step="60" />
         </div>
 
-        <div class="mapa-grade" id="mapa-grade"></div>
+        <div class="mapa-container">
+          <canvas id="mapa-canvas" class="mapa-canvas"></canvas>
+        </div>
 
         <div class="grid-2">
           <button class="btn btn-success btn-sm" id="btn-salvar-caminhao">
             💾 Salvar Caminhão
           </button>
+
           <button class="btn btn-secondary btn-sm" id="btn-relatorio-final">
             📄 Relatório Final
           </button>
         </div>
+
         <div class="grid-2">
           <button class="btn btn-outline btn-sm" id="btn-sair-mapa">
             🚪 Sair
           </button>
+
           <button class="btn btn-outline btn-sm" id="btn-voltar-historico">
             📋 Histórico
           </button>
         </div>
       </div>
 
-      <!-- TELA RELATÓRIO -->
-      <div id="view-relatorio" class="view">
-        <h3 style="color: #1e2b4f">📊 Relatório da Laje</h3>
-        <div id="relatorio-cabecalho" class="card-info"></div>
-        <div
-          class="mapa-grade leitura"
-          id="mapa-relatorio"
-          style="pointer-events: none"
-        ></div>
-        <div id="legenda-relatorio" style="margin: 12px 0"></div>
-        <button class="btn btn-secondary" id="btn-imprimir">
-          🖨️ Imprimir / PDF
-        </button>
-        <button class="btn btn-outline btn-sm" id="btn-voltar-mapa-rel">
-          ← Voltar ao mapa
-        </button>
-      </div>
-
-      <!-- TELA HISTÓRICO -->
+      <!-- HISTÓRICO -->
       <div id="view-historico" class="view">
-        <h3 style="color: #1e2b4f">📚 Histórico de Lajes</h3>
+        <h3 style="color: #1e2b4f; margin-bottom: 12px">
+          📚 Histórico de Lajes
+        </h3>
+
         <div id="lista-historico"></div>
+
         <button class="btn btn-danger" id="btn-apagar-tudo">
           🗑️ Apagar toda memória local
         </button>
+
         <button class="btn btn-outline btn-sm" id="btn-voltar-historico-inicio">
           ← Voltar
         </button>
+      </div>
+    </div>
+
+    <!-- =========================================================
+         RELATÓRIO
+    ========================================================= -->
+
+    <div id="view-relatorio" class="view">
+      <div class="botoes-relatorio">
+        <h3 style="color: #1e2b4f; margin-bottom: 8px">📊 Relatório da Laje</h3>
+
+        <div class="grid-2" style="margin-bottom: 12px">
+          <button class="btn btn-secondary" id="btn-imprimir">
+            🖨️ Imprimir / PDF
+          </button>
+
+          <button class="btn btn-outline" id="btn-voltar-mapa-rel">
+            ← Voltar ao mapa
+          </button>
+        </div>
+      </div>
+
+      <div class="folha-impressao" id="folha-relatorio">
+        <!-- CABEÇALHO -->
+
+        <div class="cabecalho-modelo">
+          <div class="logo-apto">
+            <img
+              src="https://mundoapto.com.br/wp-content/uploads/2021/11/logo_orange.svg"
+              alt="Mundo Apto"
+              class="logo-relatorio-mundo-apto"
+            />
+          </div>
+
+          <div class="titulo-mapa">MAPA DE CONCRETAGEM</div>
+
+          <div class="codigo-documento">
+            FOR.OBR.11.A<br />
+            R00
+          </div>
+        </div>
+
+        <!-- DADOS PRINCIPAIS -->
+
+        <table class="planilha-dados">
+          <colgroup>
+            <col style="width: 13%" />
+            <col style="width: 42%" />
+            <col style="width: 10%" />
+            <col style="width: 35%" />
+          </colgroup>
+
+          <tr>
+            <td class="label-col">EMPREENDIMENTO:</td>
+
+            <td class="celula-valor" id="rel-empreendimento">
+              MA Alto do Ipiranga
+            </td>
+
+            <td class="label-col">DATA:</td>
+
+            <td class="celula-valor" id="rel-data">-</td>
+          </tr>
+
+          <tr>
+            <td class="label-col">LOCAL:</td>
+
+            <td colspan="3" class="celula-valor" id="rel-local">-</td>
+          </tr>
+
+          <tr>
+            <td class="label-col">RESPONSÁVEL:</td>
+
+            <td colspan="3" class="celula-valor" id="rel-responsavel">-</td>
+          </tr>
+        </table>
+
+        <!-- =====================================================
+             TABELA:
+             NOTA = NOTA FISCAL
+             ÁREA = BT
+        ====================================================== -->
+
+        <table class="tabela-bt" id="tabela-bt">
+          <tr id="tr-notas">
+            <td class="label-col">NOTA:</td>
+          </tr>
+
+          <tr id="tr-areas">
+            <td class="label-col">ÁREA:</td>
+          </tr>
+        </table>
+
+        <!-- =====================================================
+             RETÂNGULO DA LAJE
+             OS PERCENTUAIS SÃO DESENHADOS AQUI
+             DIRETAMENTE SOBRE AS ÁREAS COLORIDAS
+        ====================================================== -->
+
+        <div class="retangulo-desenho-container">
+          <canvas id="mapa-relatorio"></canvas>
+        </div>
+
+        <div class="rodape-documento">
+          <span>SGQ</span>
+
+          <span> Imprima somente o necessário </span>
+
+          <span>1/1</span>
+        </div>
       </div>
     </div>
 
@@ -576,6 +890,7 @@
         "use strict";
 
         const PREFIX = "CONCRETO_";
+
         const CORES = [
           "#1e7e34",
           "#2b6f9e",
@@ -586,6 +901,7 @@
           "#4a7c59",
           "#b58a5a",
         ];
+
         const NOMES_CORES = [
           "Verde",
           "Azul",
@@ -596,14 +912,12 @@
           "Oliva",
           "Ocre",
         ];
-        const NOME_EMPRESA = "Mundo Apto";
-        const NOME_OBRA = "Alto do Ipiranga";
-        const TOTAL = 100;
 
         let estado = {
           torre: "A",
           pavimento: "",
           nomeLaje: "",
+          responsavel: "",
           caminhoes: [],
           caminhaoAtivo: 0,
           corAtual: CORES[0],
@@ -611,10 +925,11 @@
           chave: "",
         };
 
-        let isPainting = false;
-        let ferramentaAtual = "pincel";
+        let desenhando = false;
+        let ferramentaAtual = "borrador";
+        let historicoDesenho = [];
+        let ultimoPonto = null;
 
-        // DOM
         const views = {
           inicio: document.getElementById("view-inicio"),
           ident: document.getElementById("view-ident"),
@@ -624,33 +939,47 @@
         };
 
         const inputPavimento = document.getElementById("input-pavimento");
-        const inputNomeLaje = document.getElementById("input-nome-laje");
-        const inputNF = document.getElementById("input-nf");
-        const inputBT = document.getElementById("input-bt");
-        const inputHora = document.getElementById("input-hora");
-        const mapaGrade = document.getElementById("mapa-grade");
-        const mapaRelatorio = document.getElementById("mapa-relatorio");
-        const legendaRelatorio = document.getElementById("legenda-relatorio");
-        const relatorioCabecalho = document.getElementById(
-          "relatorio-cabecalho"
-        );
-        const listaHistorico = document.getElementById("lista-historico");
-        const tituloTorrePav = document.getElementById("titulo-torre-pav");
-        const caminhaoLabel = document.getElementById("caminhao-label");
-        const corAtualLabel = document.getElementById("cor-atual-label");
-        const btnPincel = document.getElementById("btn-ferramenta-pincel");
-        const btnBorracha = document.getElementById("btn-ferramenta-borracha");
-        const btnLimparTudo = document.getElementById("btn-limpar-tudo");
 
-        // UTIL
+        const inputNomeLaje = document.getElementById("input-nome-laje");
+
+        const inputResponsavel = document.getElementById("input-responsavel");
+
+        const inputNF = document.getElementById("input-nf");
+
+        const inputBT = document.getElementById("input-bt");
+
+        const inputHora = document.getElementById("input-hora");
+
+        const canvas = document.getElementById("mapa-canvas");
+
+        const ctx = canvas.getContext("2d");
+
+        const canvasRel = document.getElementById("mapa-relatorio");
+
+        const ctxRel = canvasRel.getContext("2d");
+
+        const tituloTorrePav = document.getElementById("titulo-torre-pav");
+
+        const caminhaoLabel = document.getElementById("caminhao-label");
+
+        const corAtualLabel = document.getElementById("cor-atual-label");
+
+        const btnBorracha = document.getElementById("btn-ferramenta-borracha");
+
+        const btnDesfazer = document.getElementById("btn-desfazer");
+
+        const btnApagar = document.getElementById("btn-ferramenta-apagar");
+
+        const listaHistorico = document.getElementById("lista-historico");
+
         function gerarChave(torre, pav, nome) {
-          const nomeLimpo = nome.trim().replace(/\s+/g, "_");
-          return `${PREFIX}${torre}_${pav}_${nomeLimpo}`;
+          return `${PREFIX}${torre}_${pav}_${nome.trim().replace(/\s+/g, "_")}`;
         }
 
         function getFromStorage(chave) {
           try {
             const raw = localStorage.getItem(chave);
+
             return raw ? JSON.parse(raw) : null;
           } catch {
             return null;
@@ -663,522 +992,1079 @@
 
         function getAllKeys() {
           const keys = [];
+
           for (let i = 0; i < localStorage.length; i++) {
             const k = localStorage.key(i);
-            if (k && k.startsWith(PREFIX)) keys.push(k);
+
+            if (k && k.startsWith(PREFIX)) {
+              keys.push(k);
+            }
           }
+
           return keys;
         }
 
         function showView(id) {
           Object.values(views).forEach((v) => v.classList.remove("active"));
+
           document.getElementById(id).classList.add("active");
         }
 
-        // PINTAR CÉLULA INDIVIDUAL (caneta)
-        function pintarCelula(index) {
-          const caminhao = estado.caminhoes[estado.caminhaoAtivo];
-          if (!caminhao) return;
-          if (!caminhao.quadrados) caminhao.quadrados = new Set();
+        function ajustarDimensoesCanvas(c) {
+          const rect = c.getBoundingClientRect();
 
-          const celulasDOM = mapaGrade.querySelectorAll(".celula");
-
-          if (ferramentaAtual === "pincel") {
-            if (!caminhao.quadrados.has(index)) {
-              caminhao.quadrados.add(index);
-              if (celulasDOM[index]) {
-                celulasDOM[index].style.background = estado.corAtual;
-              }
-            }
-          } else {
-            if (caminhao.quadrados.has(index)) {
-              caminhao.quadrados.delete(index);
-              if (celulasDOM[index]) {
-                celulasDOM[index].style.background = "transparent";
-              }
-            }
+          if (rect.width === 0 || rect.height === 0) {
+            return {
+              w: 600,
+              h: 380,
+              context: c.getContext("2d"),
+            };
           }
-          salvarProgressoAtual();
-        }
 
-        // LIMPAR TUDO
-        function limparCaminhaoAtual() {
-          const caminhao = estado.caminhoes[estado.caminhaoAtivo];
-          if (!caminhao) return;
-          if (!caminhao.quadrados || caminhao.quadrados.size === 0) return;
+          const dpr = window.devicePixelRatio || 1;
 
-          if (
-            confirm(
-              `Tem certeza que deseja apagar TODAS as pinturas do Caminhão ${
-                estado.caminhaoAtivo + 1
-              }?`
-            )
-          ) {
-            const celulasDOM = mapaGrade.querySelectorAll(".celula");
-            for (const idx of caminhao.quadrados) {
-              if (celulasDOM[idx]) {
-                celulasDOM[idx].style.background = "transparent";
-              }
-            }
-            caminhao.quadrados.clear();
-            salvarProgressoAtual();
+          const targetW = Math.round(rect.width * dpr);
+
+          const targetH = Math.round(rect.height * dpr);
+
+          if (c.width !== targetW || c.height !== targetH) {
+            c.width = targetW;
+            c.height = targetH;
           }
-        }
 
-        // SALVAR
-        function salvarProgressoAtual() {
-          if (!estado.chave) return;
-          const dadosParaSalvar = {
-            torre: estado.torre,
-            pavimento: estado.pavimento,
-            nomeLaje: estado.nomeLaje,
-            caminhoes: estado.caminhoes.map((c) => ({
-              nf: c.nf || "",
-              bt: c.bt || "",
-              hora: c.hora || "",
-              cor: c.cor || "#888",
-              quadrados: c.quadrados ? Array.from(c.quadrados) : [],
-            })),
-            caminhaoAtivo: estado.caminhaoAtivo,
-            corAtual: estado.corAtual,
-            nomeCorAtual: estado.nomeCorAtual,
+          const context = c.getContext("2d");
+
+          context.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+          return {
+            w: rect.width,
+            h: rect.height,
+            context,
           };
-          saveToStorage(estado.chave, dadosParaSalvar);
         }
 
-        // RENDER
-        function renderGrade(container, dadosCaminhoes, modoLeitura = false) {
-          container.innerHTML = "";
-          const mapaCores = new Array(TOTAL).fill("transparent");
-          const mapaBts = new Array(TOTAL).fill(null);
+        function desenharFundo(context, w, h) {
+          context.clearRect(0, 0, w, h);
 
-          if (dadosCaminhoes) {
-            for (let idx = 0; idx < dadosCaminhoes.length; idx++) {
-              const c = dadosCaminhoes[idx];
-              if (c.quadrados) {
-                for (const q of c.quadrados) {
-                  if (q >= 0 && q < TOTAL) {
-                    mapaCores[q] = c.cor || "#888";
-                    mapaBts[q] = c.bt || "BT-" + (idx + 1);
-                  }
-                }
+          context.fillStyle = "#e8e0d5";
+
+          context.fillRect(0, 0, w, h);
+        }
+
+        function capturarCanvasComoDataURL() {
+          return canvas.toDataURL("image/png");
+        }
+
+        function pontoCanvas(e) {
+          const rect = canvas.getBoundingClientRect();
+
+          return {
+            x: e.clientX - rect.left,
+
+            y: e.clientY - rect.top,
+          };
+        }
+
+        function restaurarCanvasAtual() {
+          const { w, h, context } = ajustarDimensoesCanvas(canvas);
+
+          desenharFundo(context, w, h);
+
+          historicoDesenho = [];
+          ultimoPonto = null;
+
+          const c = estado.caminhoes[estado.caminhaoAtivo];
+
+          let imagemParaCarregar = "";
+
+          if (c && c.imagem) {
+            imagemParaCarregar = c.imagem;
+          } else {
+            for (let i = estado.caminhoes.length - 1; i >= 0; i--) {
+              if (estado.caminhoes[i].imagem) {
+                imagemParaCarregar = estado.caminhoes[i].imagem;
+
+                break;
               }
             }
           }
 
-          for (let i = 0; i < TOTAL; i++) {
-            const div = document.createElement("div");
-            div.className = "celula";
-            if (mapaCores[i] !== "transparent") {
-              div.style.background = mapaCores[i];
-            }
-            div.dataset.index = i;
+          if (imagemParaCarregar) {
+            const img = new Image();
 
-            if (modoLeitura && mapaBts[i]) {
-              const label = document.createElement("span");
-              label.className = "bt-label";
-              label.textContent = mapaBts[i];
-              div.appendChild(label);
-            }
+            img.onload = () => {
+              desenharFundo(context, w, h);
 
-            if (!modoLeitura) {
-              div.addEventListener("mousedown", function (e) {
-                e.preventDefault();
-                isPainting = true;
-                const idx = parseInt(this.dataset.index);
-                pintarCelula(idx);
-              });
+              context.drawImage(img, 0, 0, w, h);
 
-              div.addEventListener("mouseenter", function (e) {
-                if (isPainting) {
-                  const idx = parseInt(this.dataset.index);
-                  pintarCelula(idx);
-                }
-              });
+              if (c) {
+                c.imagem = capturarCanvasComoDataURL();
+              }
+            };
 
-              div.addEventListener("mouseup", function (e) {
-                isPainting = false;
-              });
-
-              div.addEventListener(
-                "touchstart",
-                function (e) {
-                  e.preventDefault();
-                  const touch = e.touches[0];
-                  const target = document.elementFromPoint(
-                    touch.clientX,
-                    touch.clientY
-                  );
-                  if (target && target.classList.contains("celula")) {
-                    isPainting = true;
-                    const idx = parseInt(target.dataset.index);
-                    pintarCelula(idx);
-                  }
-                },
-                { passive: false }
-              );
-
-              div.addEventListener(
-                "touchmove",
-                function (e) {
-                  e.preventDefault();
-                  const touch = e.touches[0];
-                  const target = document.elementFromPoint(
-                    touch.clientX,
-                    touch.clientY
-                  );
-                  if (
-                    target &&
-                    target.classList.contains("celula") &&
-                    isPainting
-                  ) {
-                    const idx = parseInt(target.dataset.index);
-                    pintarCelula(idx);
-                  }
-                },
-                { passive: false }
-              );
-
-              div.addEventListener(
-                "touchend",
-                function (e) {
-                  e.preventDefault();
-                  isPainting = false;
-                },
-                { passive: false }
-              );
-            }
-
-            container.appendChild(div);
+            img.src = imagemParaCarregar;
           }
-
-          container.addEventListener("dragstart", (e) => e.preventDefault());
-          container.addEventListener("selectstart", (e) => e.preventDefault());
         }
 
-        // CARREGAR
-        function carregarLaje(torre, pav, nome) {
-          const chave = gerarChave(torre, pav, nome);
-          estado.chave = chave;
-          estado.torre = torre;
-          estado.pavimento = pav;
-          estado.nomeLaje = nome;
+        function iniciarDesenho(e) {
+          e.preventDefault();
 
-          const dados = getFromStorage(chave);
-          if (dados) {
-            estado.caminhoes = dados.caminhoes.map((c) => ({
-              ...c,
-              quadrados: new Set(c.quadrados || []),
-            }));
-            estado.caminhaoAtivo = dados.caminhaoAtivo || 0;
-            estado.corAtual = dados.corAtual || CORES[0];
-            estado.nomeCorAtual = dados.nomeCorAtual || NOMES_CORES[0];
-            if (estado.caminhoes.length === 0) {
-              criarNovoCaminhao();
-            } else if (estado.caminhaoAtivo >= estado.caminhoes.length) {
-              estado.caminhaoAtivo = estado.caminhoes.length - 1;
-            }
-          } else {
-            estado.caminhoes = [];
-            estado.caminhaoAtivo = 0;
-            estado.corAtual = CORES[0];
-            estado.nomeCorAtual = NOMES_CORES[0];
-            criarNovoCaminhao();
+          if (e.pointerType === "mouse" && e.button !== 0) {
+            return;
           }
-          atualizarInterfaceMapa();
-          showView("view-mapa");
+
+          historicoDesenho.push(capturarCanvasComoDataURL());
+
+          if (historicoDesenho.length > 20) {
+            historicoDesenho.shift();
+          }
+
+          desenhando = true;
+
+          canvas.setPointerCapture?.(e.pointerId);
+
+          const p = pontoCanvas(e);
+
+          ultimoPonto = p;
+
+          desenharPonto(p, p);
+        }
+
+        function desenharPonto(a, b) {
+          const rect = canvas.getBoundingClientRect();
+
+          const tamanho = Math.max(24, rect.width * 0.055);
+
+          ctx.lineWidth = tamanho;
+
+          ctx.lineCap = "round";
+
+          ctx.lineJoin = "round";
+
+          if (ferramentaAtual === "borracha") {
+            ctx.save();
+
+            ctx.strokeStyle = "#e8e0d5";
+
+            ctx.fillStyle = "#e8e0d5";
+
+            ctx.beginPath();
+
+            ctx.moveTo(a.x, a.y);
+
+            ctx.lineTo(b.x, b.y);
+
+            ctx.stroke();
+
+            ctx.beginPath();
+
+            ctx.arc(b.x, b.y, tamanho / 2, 0, Math.PI * 2);
+
+            ctx.fill();
+
+            ctx.restore();
+          } else {
+            ctx.globalCompositeOperation = "source-over";
+
+            ctx.strokeStyle = estado.corAtual;
+
+            ctx.fillStyle = estado.corAtual;
+
+            ctx.beginPath();
+
+            ctx.moveTo(a.x, a.y);
+
+            ctx.lineTo(b.x, b.y);
+
+            ctx.stroke();
+
+            ctx.beginPath();
+
+            ctx.arc(b.x, b.y, tamanho / 2, 0, Math.PI * 2);
+
+            ctx.fill();
+          }
+        }
+
+        function moverDesenho(e) {
+          if (!desenhando) {
+            return;
+          }
+
+          e.preventDefault();
+
+          const p = pontoCanvas(e);
+
+          if (ultimoPonto) {
+            desenharPonto(ultimoPonto, p);
+          }
+
+          ultimoPonto = p;
+        }
+
+        function terminarDesenho() {
+          if (!desenhando) {
+            return;
+          }
+
+          desenhando = false;
+          ultimoPonto = null;
+
+          const c = estado.caminhoes[estado.caminhaoAtivo];
+
+          if (c) {
+            c.imagem = capturarCanvasComoDataURL();
+          }
+        }
+
+        canvas.addEventListener("pointerdown", iniciarDesenho);
+
+        canvas.addEventListener("pointermove", moverDesenho);
+
+        canvas.addEventListener("pointerup", terminarDesenho);
+
+        canvas.addEventListener("pointercancel", terminarDesenho);
+
+        canvas.addEventListener("pointerleave", (e) => {
+          if (e.pointerType === "mouse") {
+            terminarDesenho();
+          }
+        });
+
+        function desfazer() {
+          if (historicoDesenho.length === 0) {
+            alert("Não há nenhuma ação para desfazer.");
+
+            return;
+          }
+
+          const data = historicoDesenho.pop();
+
+          const img = new Image();
+
+          const { w, h, context } = ajustarDimensoesCanvas(canvas);
+
+          img.onload = () => {
+            desenharFundo(context, w, h);
+
+            context.drawImage(img, 0, 0, w, h);
+
+            const c = estado.caminhoes[estado.caminhaoAtivo];
+
+            if (c) {
+              c.imagem = capturarCanvasComoDataURL();
+            }
+          };
+
+          img.src = data;
         }
 
         function criarNovoCaminhao() {
           const idx = estado.caminhoes.length;
+
           const corIdx = idx % CORES.length;
+
           estado.corAtual = CORES[corIdx];
+
           estado.nomeCorAtual = NOMES_CORES[corIdx];
-          const novo = {
+
+          const imagemBase = capturarCanvasComoDataURL();
+
+          estado.caminhoes.push({
             nf: "",
             bt: "",
             hora: "",
             cor: estado.corAtual,
-            quadrados: new Set(),
-          };
-          estado.caminhoes.push(novo);
+            nomeCor: estado.nomeCorAtual,
+            imagem: imagemBase,
+            salvo: false,
+          });
+
           estado.caminhaoAtivo = estado.caminhoes.length - 1;
+
           const now = new Date();
-          const hh = String(now.getHours()).padStart(2, "0");
-          const mm = String(now.getMinutes()).padStart(2, "0");
-          inputHora.value = `${hh}:${mm}`;
+
+          inputHora.value = `${String(now.getHours()).padStart(
+            2,
+            "0"
+          )}:${String(now.getMinutes()).padStart(2, "0")}`;
+
           inputNF.value = "";
           inputBT.value = "";
+        }
+
+        function carregarLaje(torre, pav, nome, resp) {
+          estado.chave = gerarChave(torre, pav, nome);
+
+          estado.torre = torre;
+
+          estado.pavimento = pav;
+
+          estado.nomeLaje = nome;
+
+          estado.responsavel = resp || estado.responsavel || "";
+
+          const dados = getFromStorage(estado.chave);
+
+          if (dados && dados.caminhoes && dados.caminhoes.length > 0) {
+            estado.responsavel = dados.responsavel || estado.responsavel;
+
+            estado.caminhoes = dados.caminhoes.map((c) => ({
+              ...c,
+              salvo: true,
+            }));
+
+            const corIdx = estado.caminhoes.length % CORES.length;
+
+            estado.corAtual = CORES[corIdx];
+
+            estado.nomeCorAtual = NOMES_CORES[corIdx];
+
+            const ultimaImagem =
+              estado.caminhoes[estado.caminhoes.length - 1].imagem;
+
+            estado.caminhoes.push({
+              nf: "",
+              bt: "",
+              hora: "",
+              cor: estado.corAtual,
+              nomeCor: estado.nomeCorAtual,
+              imagem: ultimaImagem,
+              salvo: false,
+            });
+
+            estado.caminhaoAtivo = estado.caminhoes.length - 1;
+          } else {
+            estado.caminhoes = [];
+
+            estado.caminhaoAtivo = -1;
+
+            criarNovoCaminhao();
+          }
+
+          selecionarFerramenta("borrador");
+
+          showView("view-mapa");
+
+          atualizarInterfaceMapa();
         }
 
         function atualizarInterfaceMapa() {
           const c = estado.caminhoes[estado.caminhaoAtivo];
-          if (!c) return;
-          tituloTorrePav.textContent = `Torre ${estado.torre} · P${estado.pavimento}`;
-          caminhaoLabel.textContent = `Caminhão ${estado.caminhaoAtivo + 1}`;
-          corAtualLabel.textContent = estado.nomeCorAtual;
-          corAtualLabel.style.background = estado.corAtual;
-          inputNF.value = c.nf || "";
-          inputBT.value = c.bt || "";
-          if (c.hora) inputHora.value = c.hora;
-          renderGrade(mapaGrade, estado.caminhoes, false);
-          atualizarBotoesFerramenta();
-        }
 
-        function atualizarBotoesFerramenta() {
-          btnPincel.classList.toggle(
-            "ferramenta-ativa",
-            ferramentaAtual === "pincel"
-          );
-          btnBorracha.classList.toggle(
-            "ferramenta-ativa",
-            ferramentaAtual === "borracha"
-          );
-        }
-
-        // SALVAR CAMINHÃO
-        function salvarCaminhaoAtual() {
-          const c = estado.caminhoes[estado.caminhaoAtivo];
-          if (!c) return;
-          c.nf = inputNF.value.trim();
-          c.bt = inputBT.value.trim();
-          c.hora = inputHora.value;
-          c.cor = estado.corAtual;
-          salvarProgressoAtual();
-
-          const novoIdx = estado.caminhoes.length;
-          const corIdx = novoIdx % CORES.length;
-          estado.corAtual = CORES[corIdx];
-          estado.nomeCorAtual = NOMES_CORES[corIdx];
-          const novo = {
-            nf: "",
-            bt: "",
-            hora: "",
-            cor: estado.corAtual,
-            quadrados: new Set(),
-          };
-          estado.caminhoes.push(novo);
-          estado.caminhaoAtivo = estado.caminhoes.length - 1;
-          const now = new Date();
-          const hh = String(now.getHours()).padStart(2, "0");
-          const mm = String(now.getMinutes()).padStart(2, "0");
-          inputHora.value = `${hh}:${mm}`;
-          inputNF.value = "";
-          inputBT.value = "";
-          salvarProgressoAtual();
-          atualizarInterfaceMapa();
-        }
-
-        // RELATÓRIO
-        function gerarRelatorio() {
-          const caminhoesComPintura = estado.caminhoes.filter(
-            (c) => c.quadrados && c.quadrados.size > 0
-          );
-          const totalPintados = caminhoesComPintura.reduce(
-            (acc, c) => acc + (c.quadrados ? c.quadrados.size : 0),
-            0
-          );
-
-          const dataEmissao = new Date().toLocaleDateString("pt-BR");
-          const totalCaminhoes = caminhoesComPintura.length;
-
-          // Porcentagem agora é calculada sobre o TOTAL da laje (100 células)
-          const caminhoesComPorcentagem = caminhoesComPintura.map((c) => ({
-            ...c,
-            porcentagem: Math.round((c.quadrados.size / TOTAL) * 100),
-          }));
-
-          relatorioCabecalho.innerHTML = `
-                    <div style="font-size:1.2rem; font-weight:700;">${NOME_EMPRESA}</div>
-                    <div style="font-size:1rem; font-weight:600; color:#1e2b4f;">Obra: ${NOME_OBRA}</div>
-                    <div style="font-size:1rem;"><strong>Torre ${estado.torre}</strong> · Pavimento ${estado.pavimento} · ${estado.nomeLaje}</div>
-                    <div style="font-size:0.9rem; color:#2c3e5c;">Data emissão: ${dataEmissao} · Total caminhões: ${totalCaminhoes} · Área concretada: ${totalPintados}/100 (${totalPintados}%)</div>
-                `;
-
-          renderGrade(mapaRelatorio, caminhoesComPorcentagem, true);
-
-          let legendaHTML =
-            '<div style="font-weight:600; margin: 12px 0 6px;">Legenda de Lotes por Betoneira (BT)</div>';
-          caminhoesComPorcentagem.forEach((c, i) => {
-            legendaHTML += `
-                        <div class="legenda-item">
-                            <span class="cor-bolinha" style="background:${
-                              c.cor || "#888"
-                            }"></span>
-                            <div class="detalhes">
-                                <span class="bt-info">🚚 BT: ${
-                                  c.bt || "N/A"
-                                } · NF: ${c.nf || "-"}</span>
-                                <span class="porcentagem">${
-                                  c.quadrados.size
-                                } células · ${c.porcentagem}% da laje · Hora: ${
-              c.hora || "-"
-            }</span>
-                            </div>
-                        </div>
-                    `;
-          });
-          if (caminhoesComPorcentagem.length === 0) {
-            legendaHTML +=
-              '<p style="color:#6a7b92;">Nenhuma área pintada ainda.</p>';
-          }
-          legendaRelatorio.innerHTML = legendaHTML;
-          showView("view-relatorio");
-        }
-
-        // HISTÓRICO
-        function renderizarHistorico() {
-          const keys = getAllKeys();
-          listaHistorico.innerHTML = "";
-          if (keys.length === 0) {
-            listaHistorico.innerHTML =
-              '<p style="color:#6a7b92; padding:20px 0;">Nenhuma laje salva neste aparelho.</p>';
+          if (!c) {
             return;
           }
+
+          tituloTorrePav.textContent = `Torre ${estado.torre} · P${estado.pavimento}`;
+
+          caminhaoLabel.textContent = `Caminhão ${estado.caminhaoAtivo + 1}`;
+
+          corAtualLabel.textContent = estado.nomeCorAtual;
+
+          corAtualLabel.style.background = estado.corAtual;
+
+          inputNF.value = c.nf || "";
+
+          inputBT.value = c.bt || "";
+
+          inputHora.value = c.hora || "";
+
+          restaurarCanvasAtual();
+        }
+
+        function salvarProgressoAtual() {
+          if (!estado.chave) {
+            return;
+          }
+
+          const cAtual = estado.caminhoes[estado.caminhaoAtivo];
+
+          if (cAtual) {
+            cAtual.imagem = capturarCanvasComoDataURL();
+
+            cAtual.nf = inputNF.value.trim();
+
+            cAtual.bt = inputBT.value.trim();
+
+            cAtual.hora = inputHora.value;
+          }
+
+          const caminhoesParaSalvar = estado.caminhoes.filter(
+            (c) => c.salvo === true
+          );
+
+          const dadosParaSalvar = {
+            torre: estado.torre,
+
+            pavimento: estado.pavimento,
+
+            nomeLaje: estado.nomeLaje,
+
+            responsavel: estado.responsavel,
+
+            caminhoes: caminhoesParaSalvar.map((c) => ({
+              nf: c.nf || "",
+
+              bt: c.bt || "",
+
+              hora: c.hora || "",
+
+              cor: c.cor || "#888",
+
+              nomeCor: c.nomeCor || "Desconhecido",
+
+              imagem: c.imagem || "",
+
+              salvo: true,
+            })),
+          };
+
+          saveToStorage(estado.chave, dadosParaSalvar);
+        }
+
+        function salvarCaminhaoAtual() {
+          const c = estado.caminhoes[estado.caminhaoAtivo];
+
+          if (!c) {
+            return;
+          }
+
+          c.nf = inputNF.value.trim();
+
+          c.bt = inputBT.value.trim();
+
+          c.hora = inputHora.value;
+
+          c.cor = estado.corAtual;
+
+          c.nomeCor = estado.nomeCorAtual;
+
+          c.imagem = capturarCanvasComoDataURL();
+
+          c.salvo = true;
+
+          salvarProgressoAtual();
+
+          criarNovoCaminhao();
+
+          atualizarInterfaceMapa();
+
+          const btnSalvar = document.getElementById("btn-salvar-caminhao");
+
+          const textoOriginal = btnSalvar.textContent;
+
+          btnSalvar.textContent = "✅ Salvo!";
+
+          btnSalvar.style.background = "#1e7e34";
+
+          setTimeout(() => {
+            btnSalvar.textContent = textoOriginal;
+
+            btnSalvar.style.background = "";
+          }, 1500);
+        }
+
+        function hexToRgb(hex) {
+          let c = hex.replace("#", "");
+
+          if (c.length === 3) {
+            c = c
+              .split("")
+              .map((x) => x + x)
+              .join("");
+          }
+
+          const num = parseInt(c, 16);
+
+          return {
+            r: (num >> 16) & 255,
+
+            g: (num >> 8) & 255,
+
+            b: num & 255,
+          };
+        }
+
+        /* =========================================================
+           CALCULA A PORCENTAGEM DE UMA COR
+           
+           A área total do canvas representa 100%.
+           A porcentagem corresponde somente aos pixels
+           da cor daquela BT.
+        ========================================================= */
+
+        function calcularAreaPorCor(imgData, targetHex) {
+          const target = hexToRgb(targetHex);
+
+          let pixelsCor = 0;
+
+          const totalPixels = imgData.data.length / 4;
+
+          const tol = 30;
+
+          for (let i = 0; i < imgData.data.length; i += 4) {
+            const r = imgData.data[i];
+
+            const g = imgData.data[i + 1];
+
+            const b = imgData.data[i + 2];
+
+            if (
+              Math.abs(r - target.r) <= tol &&
+              Math.abs(g - target.g) <= tol &&
+              Math.abs(b - target.b) <= tol
+            ) {
+              pixelsCor++;
+            }
+          }
+
+          return (pixelsCor / totalPixels) * 100;
+        }
+
+        /* =========================================================
+           DESENHA O MAPA FINAL COM AS PORCENTAGENS
+           
+           Cada porcentagem aparece diretamente sobre a área
+           colorida correspondente à BT.
+        ========================================================= */
+
+        function desenharMapaRelatorio(caminhoesSalvos, w, h) {
+          ctxRel.clearRect(0, 0, w, h);
+
+          ctxRel.fillStyle = "#e8e0d5";
+
+          ctxRel.fillRect(0, 0, w, h);
+
+          if (caminhoesSalvos.length === 0) {
+            return;
+          }
+
+          const ultimoCaminhao = caminhoesSalvos[caminhoesSalvos.length - 1];
+
+          const imagemFinal = ultimoCaminhao.imagem;
+
+          if (!imagemFinal) {
+            return;
+          }
+
+          const imgFinal = new Image();
+
+          imgFinal.onload = function () {
+            ctxRel.drawImage(imgFinal, 0, 0, w, h);
+
+            /*
+             * ====================================================
+             * CALCULA E DESENHA O PERCENTUAL
+             * SOBRE CADA ÁREA COLORIDA
+             * ====================================================
+             *
+             * Para evitar que os percentuais fiquem todos
+             * empilhados no mesmo lugar, procuramos o centro
+             * aproximado da área de cada cor.
+             */
+
+            caminhoesSalvos.forEach((caminhao) => {
+              if (!caminhao.imagem) {
+                return;
+              }
+
+              const cor = caminhao.cor || "#888888";
+
+              const img = new Image();
+
+              img.onload = function () {
+                const tempCanvas = document.createElement("canvas");
+
+                tempCanvas.width = img.naturalWidth || img.width;
+
+                tempCanvas.height = img.naturalHeight || img.height;
+
+                const tempCtx = tempCanvas.getContext("2d");
+
+                tempCtx.drawImage(
+                  img,
+                  0,
+                  0,
+                  tempCanvas.width,
+                  tempCanvas.height
+                );
+
+                const imageData = tempCtx.getImageData(
+                  0,
+                  0,
+                  tempCanvas.width,
+                  tempCanvas.height
+                );
+
+                const porcentagem = calcularAreaPorCor(imageData, cor);
+
+                /*
+                 * Procura o centro aproximado
+                 * da área pintada com esta cor.
+                 */
+
+                const target = hexToRgb(cor);
+
+                let somaX = 0;
+                let somaY = 0;
+                let quantidade = 0;
+
+                const tolerancia = 30;
+
+                for (let y = 0; y < tempCanvas.height; y++) {
+                  for (let x = 0; x < tempCanvas.width; x++) {
+                    const index = (y * tempCanvas.width + x) * 4;
+
+                    const r = imageData.data[index];
+
+                    const g = imageData.data[index + 1];
+
+                    const b = imageData.data[index + 2];
+
+                    if (
+                      Math.abs(r - target.r) <= tolerancia &&
+                      Math.abs(g - target.g) <= tolerancia &&
+                      Math.abs(b - target.b) <= tolerancia
+                    ) {
+                      somaX += x;
+
+                      somaY += y;
+
+                      quantidade++;
+                    }
+                  }
+                }
+
+                if (quantidade === 0) {
+                  return;
+                }
+
+                const centroX = (somaX / quantidade) * (w / tempCanvas.width);
+
+                const centroY = (somaY / quantidade) * (h / tempCanvas.height);
+
+                /*
+                 * Desenha somente o número.
+                 * Sem quadro.
+                 * Sem fundo.
+                 */
+
+                ctxRel.save();
+
+                ctxRel.font = "bold 18px Arial";
+
+                ctxRel.textAlign = "center";
+
+                ctxRel.textBaseline = "middle";
+
+                ctxRel.lineWidth = 3;
+
+                /*
+                 * Contorno branco para facilitar
+                 * a leitura sobre qualquer cor.
+                 */
+
+                ctxRel.strokeStyle = "white";
+
+                ctxRel.strokeText(
+                  `${porcentagem.toFixed(0)}%`,
+                  centroX,
+                  centroY
+                );
+
+                ctxRel.fillStyle = "#111111";
+
+                ctxRel.fillText(`${porcentagem.toFixed(0)}%`, centroX, centroY);
+
+                ctxRel.restore();
+              };
+
+              img.src = caminhao.imagem;
+            });
+          };
+
+          imgFinal.src = imagemFinal;
+        }
+
+        /* =========================================================
+           GERA RELATÓRIO
+        ========================================================= */
+
+        function gerarRelatorio() {
+          salvarProgressoAtual();
+
+          const dados = getFromStorage(estado.chave);
+
+          const caminhoesSalvos =
+            dados && Array.isArray(dados.caminhoes)
+              ? dados.caminhoes.filter((c) => c && c.salvo === true)
+              : [];
+
+          const dataEmissao = new Date().toLocaleDateString("pt-BR");
+
+          document.getElementById("rel-data").textContent = dataEmissao;
+
+          document.getElementById("rel-responsavel").textContent =
+            estado.responsavel || "-";
+
+          document.getElementById("rel-empreendimento").textContent =
+            "MA Alto do Ipiranga";
+
+          let localTexto = `Torre ${estado.torre} · Pavimento ${estado.pavimento}`;
+
+          if (estado.nomeLaje) {
+            localTexto += ` - ${estado.nomeLaje}`;
+          }
+
+          document.getElementById("rel-local").textContent = localTexto;
+
+          showView("view-relatorio");
+
+          /*
+           * ========================================================
+           * TABELA DE NOTA E ÁREA
+           *
+           * NOTA = NF
+           * ÁREA = BT
+           *
+           * A porcentagem NÃO aparece aqui.
+           * ========================================================
+           */
+
+          const trNotas = document.getElementById("tr-notas");
+
+          const trAreas = document.getElementById("tr-areas");
+
+          trNotas.innerHTML = `<td class="label-col">NOTA:</td>`;
+
+          trAreas.innerHTML = `<td class="label-col">ÁREA:</td>`;
+
+          const totalColunas = Math.max(8, caminhoesSalvos.length);
+
+          for (let i = 0; i < totalColunas; i++) {
+            const caminhao = caminhoesSalvos[i];
+
+            if (!caminhao) {
+              trNotas.innerHTML += `
+                <td class="bt-celula">
+                  -
+                </td>
+              `;
+
+              trAreas.innerHTML += `
+                <td class="area-celula">
+                  -
+                </td>
+              `;
+
+              continue;
+            }
+
+            /*
+             * NOTA = Nota Fiscal
+             */
+
+            const nota = caminhao.nf || "-";
+
+            /*
+             * ÁREA = BT
+             */
+
+            const bt = caminhao.bt || "-";
+
+            /*
+             * Cor da BT
+             */
+
+            const cor = caminhao.cor || "#cccccc";
+
+            /*
+             * Linha NOTA
+             */
+
+            trNotas.innerHTML += `
+              <td
+                class="bt-celula"
+                style="
+                  background-color: ${cor};
+                "
+              >
+                ${nota}
+              </td>
+            `;
+
+            /*
+             * Linha ÁREA
+             *
+             * Aqui aparece o nome/número da BT.
+             */
+
+            trAreas.innerHTML += `
+              <td
+                class="area-celula"
+                style="
+                  background-color: ${cor};
+                "
+              >
+                ${bt}
+              </td>
+            `;
+          }
+
+          /*
+           * ========================================================
+           * DESENHA O RETÂNGULO FINAL
+           * ========================================================
+           */
+
+          requestAnimationFrame(() => {
+            const rect = canvasRel.getBoundingClientRect();
+
+            if (rect.width === 0 || rect.height === 0) {
+              return;
+            }
+
+            const dpr = window.devicePixelRatio || 1;
+
+            canvasRel.width = Math.round(rect.width * dpr);
+
+            canvasRel.height = Math.round(rect.height * dpr);
+
+            ctxRel.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            desenharMapaRelatorio(caminhoesSalvos, rect.width, rect.height);
+          });
+        }
+
+        function renderizarHistorico() {
+          const keys = getAllKeys();
+
+          listaHistorico.innerHTML = "";
+
+          if (!keys.length) {
+            listaHistorico.innerHTML =
+              '<p style="color:#6a7b92;padding:20px 0">Nenhuma laje salva neste aparelho.</p>';
+
+            return;
+          }
+
           keys.forEach((chave) => {
             const dados = getFromStorage(chave);
-            if (!dados) return;
+
+            if (!dados) {
+              return;
+            }
+
             const partes = chave.replace(PREFIX, "").split("_");
+
             const torre = partes[0] || "?";
+
             const pav = partes[1] || "?";
+
             const nome =
               dados.nomeLaje || partes.slice(2).join("_") || "Sem nome";
-            const caminhoesComPintura = dados.caminhoes
-              ? dados.caminhoes.filter(
-                  (c) => c.quadrados && c.quadrados.length > 0
-                )
-              : [];
-            const totalCaminhoes = caminhoesComPintura.length;
+
+            const total = (dados.caminhoes || []).filter((c) => c.salvo).length;
+
             const card = document.createElement("div");
+
             card.className = "historico-card";
+
             card.innerHTML = `
-                        <div class="meta">Torre ${torre} · Pavimento ${pav}</div>
-                        <div class="sub">${nome} · ${totalCaminhoes} caminhão(ões)</div>
-                        <button class="btn btn-sm btn-secondary" data-chave="${chave}" style="width:auto; padding:10px 20px; margin-top:6px;">Abrir Este Mapa</button>
-                    `;
-            const btnAbrir = card.querySelector("button");
-            btnAbrir.addEventListener("click", function (e) {
-              const chave = this.dataset.chave;
-              const dados = getFromStorage(chave);
-              if (dados) {
-                const torre = dados.torre || "A";
-                const pav = dados.pavimento || "1";
-                const nome = dados.nomeLaje || "Laje";
-                carregarLaje(torre, pav, nome);
+                <div class="meta">
+                  Torre ${torre} · Pavimento ${pav}
+                </div>
+
+                <div class="sub">
+                  ${nome} · Resp:
+                  ${dados.responsavel || "-"}
+                  · ${total}
+                  caminhão(ões)
+                </div>
+
+                <button
+                style="background:#EE7B00 !important"
+                  class="btn btn-sm btn-secondary"
+                  data-chave="${chave}"
+                  style="
+                    width:auto;
+                    padding:10px 20px;
+                    margin-top:6px;
+                  "
+                >
+                  Abrir Este Mapa
+                </button>
+              `;
+
+            card.querySelector("button").addEventListener("click", function () {
+              const d = getFromStorage(this.dataset.chave);
+
+              if (d) {
+                carregarLaje(
+                  d.torre || "A",
+
+                  d.pavimento || "1",
+
+                  d.nomeLaje || "Laje",
+
+                  d.responsavel || ""
+                );
               }
             });
+
             listaHistorico.appendChild(card);
           });
         }
 
-        // EVENTOS
-        btnPincel.addEventListener("click", function () {
-          ferramentaAtual = "pincel";
-          atualizarBotoesFerramenta();
-        });
+        function selecionarFerramenta(ferramenta) {
+          ferramentaAtual = ferramenta;
 
-        btnBorracha.addEventListener("click", function () {
-          ferramentaAtual = "borracha";
-          atualizarBotoesFerramenta();
-        });
+          btnBorracha.classList.toggle(
+            "ferramenta-ativa",
+            ferramenta === "borrador"
+          );
 
-        btnLimparTudo.addEventListener("click", limparCaminhaoAtual);
+          btnApagar.classList.toggle(
+            "ferramenta-ativa",
+            ferramenta === "borracha"
+          );
 
-        document.querySelectorAll("[data-torre]").forEach((btn) => {
+          canvas.style.cursor =
+            ferramenta === "borracha" ? "cell" : "crosshair";
+        }
+
+        btnBorracha.addEventListener("click", () =>
+          selecionarFerramenta("borrador")
+        );
+
+        btnApagar.addEventListener("click", () =>
+          selecionarFerramenta("borracha")
+        );
+
+        btnDesfazer.addEventListener("click", desfazer);
+
+        document.querySelectorAll("[data-torre]").forEach((btn) =>
           btn.addEventListener("click", function () {
-            const torre = this.dataset.torre;
+            estado.torre = this.dataset.torre;
+
             inputPavimento.value = "1";
+
             inputNomeLaje.value = "";
-            estado.torre = torre;
+
+            inputResponsavel.value = "";
+
             showView("view-ident");
-          });
-        });
+          })
+        );
 
         document
           .getElementById("btn-voltar-inicio")
           .addEventListener("click", () => showView("view-inicio"));
+
         document
           .getElementById("btn-iniciar-laje")
-          .addEventListener("click", function () {
+          .addEventListener("click", () => {
             const pav = inputPavimento.value.trim();
+
             const nome = inputNomeLaje.value.trim();
+
+            const resp = inputResponsavel.value.trim();
+
             if (!pav || !nome) {
               alert("Preencha Pavimento e Nome da Laje.");
+
               return;
             }
-            const torre = estado.torre || "A";
-            carregarLaje(torre, pav, nome);
+
+            carregarLaje(
+              estado.torre || "A",
+
+              pav,
+
+              nome,
+
+              resp
+            );
           });
+
         document
           .getElementById("btn-salvar-caminhao")
           .addEventListener("click", salvarCaminhaoAtual);
+
         document
           .getElementById("btn-relatorio-final")
-          .addEventListener("click", function () {
-            salvarProgressoAtual();
-            gerarRelatorio();
-          });
+          .addEventListener("click", gerarRelatorio);
+
         document
           .getElementById("btn-sair-mapa")
-          .addEventListener("click", function () {
+          .addEventListener("click", () => {
             salvarProgressoAtual();
+
             showView("view-inicio");
           });
+
         document
           .getElementById("btn-voltar-historico")
-          .addEventListener("click", function () {
+          .addEventListener("click", () => {
             salvarProgressoAtual();
+
             renderizarHistorico();
+
             showView("view-historico");
           });
+
         document
           .getElementById("btn-historico")
-          .addEventListener("click", function () {
+          .addEventListener("click", () => {
             renderizarHistorico();
+
             showView("view-historico");
           });
+
         document
           .getElementById("btn-voltar-historico-inicio")
           .addEventListener("click", () => showView("view-inicio"));
+
         document
           .getElementById("btn-imprimir")
-          .addEventListener("click", function () {
-            window.print();
-          });
+          .addEventListener("click", () => window.print());
+
         document
           .getElementById("btn-voltar-mapa-rel")
-          .addEventListener("click", function () {
-            atualizarInterfaceMapa();
+          .addEventListener("click", () => {
             showView("view-mapa");
+
+            atualizarInterfaceMapa();
           });
+
         document
           .getElementById("btn-apagar-tudo")
-          .addEventListener("click", function () {
+          .addEventListener("click", () => {
             if (
               confirm(
                 "Tem certeza que deseja apagar TODOS os dados do LocalStorage?"
               )
             ) {
-              const keys = getAllKeys();
-              keys.forEach((k) => localStorage.removeItem(k));
+              getAllKeys().forEach((k) => localStorage.removeItem(k));
+
               renderizarHistorico();
+
               alert("Memória apagada.");
             }
           });
 
-        document.addEventListener("mouseup", () => {
-          isPainting = false;
-        });
-        document.addEventListener("touchend", () => {
-          isPainting = false;
+        window.addEventListener("resize", () => {
+          if (views.mapa.classList.contains("active")) {
+            restaurarCanvasAtual();
+          }
         });
 
         const now = new Date();
-        const hh = String(now.getHours()).padStart(2, "0");
-        const mm = String(now.getMinutes()).padStart(2, "0");
-        if (inputHora) inputHora.value = `${hh}:${mm}`;
 
-        atualizarBotoesFerramenta();
+        inputHora.value = `${String(now.getHours()).padStart(2, "0")}:${String(
+          now.getMinutes()
+        ).padStart(2, "0")}`;
       })();
     </script>
   </body>
