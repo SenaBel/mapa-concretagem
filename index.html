@@ -479,10 +479,7 @@
         }
 
         #app {
-          width: 100%;
-          max-width: none;
-          margin: 0;
-          padding: 0;
+          display: none !important;
         }
 
         .view {
@@ -491,9 +488,6 @@
 
         #view-relatorio {
           display: block !important;
-          width: 100%;
-          margin: 0;
-          padding: 0;
         }
 
         .botoes-relatorio {
@@ -1803,7 +1797,9 @@
 
           document.getElementById("rel-local").textContent = localTexto;
 
-          showView("view-relatorio");
+          //showView("view-relatorio");
+          document.getElementById("app").style.display = "none";
+          document.getElementById("view-relatorio").style.display = "block";
 
           /*
            * ========================================================
@@ -2117,6 +2113,9 @@
         document
           .getElementById("btn-voltar-mapa-rel")
           .addEventListener("click", () => {
+            document.getElementById("app").style.display = "";
+            document.getElementById("view-relatorio").style.display = "none";
+
             showView("view-mapa");
 
             atualizarInterfaceMapa();
